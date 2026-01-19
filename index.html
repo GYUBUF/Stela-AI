@@ -1,0 +1,3184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stela AI</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Scrollbar */
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 3px;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Glow Effect */
+        .glow {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.5); }
+        }
+
+        /* Typing Animation */
+        .typing-dot {
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        /* Message Animation */
+        .message-appear {
+            animation: messageSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Modal Backdrop */
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            animation: backdropFadeIn 0.3s ease;
+        }
+
+        @keyframes backdropFadeIn {
+            from { opacity: 0; backdrop-filter: blur(0); }
+            to { opacity: 1; backdrop-filter: blur(8px); }
+        }
+
+        /* Modal Animation */
+        .modal-appear {
+            animation: modalBounceIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalBounceIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Coin Bounce Animation */
+        .coin-bounce {
+            animation: coinBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes coinBounce {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.4) rotate(10deg); }
+            60% { transform: scale(0.9) rotate(-5deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+
+        /* Button Hover Effects */
+        .btn-hover {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-hover:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Floating Animation */
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Pulse Ring */
+        .pulse-ring {
+            position: relative;
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, #a855f7, #3b82f6);
+            opacity: 0;
+            animation: pulseRing 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseRing {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+        }
+
+        /* Shimmer Effect */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Shake Animation */
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px) rotate(-1deg); }
+            40% { transform: translateX(8px) rotate(1deg); }
+            60% { transform: translateX(-8px) rotate(-1deg); }
+            80% { transform: translateX(8px) rotate(1deg); }
+        }
+
+        /* Slide In from Left */
+        .slide-in-left {
+            animation: slideInLeft 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Slide In from Right */
+        .slide-in-right {
+            animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Scale In */
+        .scale-in {
+            animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Rotate In */
+        .rotate-in {
+            animation: rotateIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-180deg) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+
+        /* Gradient Border Animation */
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(#1f2937, #1f2937) padding-box,
+                        linear-gradient(135deg, #a855f7, #6366f1, #3b82f6, #a855f7) border-box;
+            border: 2px solid transparent;
+            background-size: 100% 100%, 300% 300%;
+            animation: gradientBorder 4s linear infinite;
+        }
+
+        @keyframes gradientBorder {
+            0%, 100% { background-position: 0% 0%, 0% 50%; }
+            50% { background-position: 0% 0%, 100% 50%; }
+        }
+
+        /* Sparkle Effect */
+        .sparkle {
+            position: relative;
+        }
+
+        .sparkle::before,
+        .sparkle::after {
+            content: '✨';
+            position: absolute;
+            font-size: 12px;
+            opacity: 0;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .sparkle::before {
+            top: -10px;
+            left: -10px;
+            animation-delay: 0s;
+        }
+
+        .sparkle::after {
+            bottom: -10px;
+            right: -10px;
+            animation-delay: 1s;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        /* Progress Bar Animation */
+        .progress-animate {
+            transition: width 1s ease-out;
+        }
+
+        /* Notification Slide Down */
+        .notification-slide {
+            animation: notificationSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes notificationSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Chat Item Hover */
+        .chat-item {
+            transition: all 0.2s ease;
+        }
+
+        .chat-item:hover {
+            transform: translateX(4px);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        /* Input Focus Effect */
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+
+        .input-focus:focus-within {
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            border-color: #a855f7;
+        }
+
+        /* Avatar Hover */
+        .avatar-hover {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .avatar-hover:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Welcome Icon Animation */
+        .welcome-icon {
+            animation: welcomeFloat 4s ease-in-out infinite, welcomeGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes welcomeFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(2deg); }
+            75% { transform: translateY(8px) rotate(-2deg); }
+        }
+
+        @keyframes welcomeGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 0 60px rgba(139, 92, 246, 0.7); }
+        }
+
+        /* Suggestion Card Hover */
+        .suggestion-card {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        /* Send Button Pulse */
+        .send-btn-pulse {
+            animation: sendPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes sendPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+        }
+
+        /* Typing Cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Code Block Appear */
+        .code-appear {
+            animation: codeSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes codeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+        }
+
+        /* Status Dot */
+        .status-dot {
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Logo Spin on Hover */
+        .logo-spin {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logo-spin:hover {
+            transform: rotate(360deg);
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .ripple:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Voice Call Animation */
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .voice-wave span {
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(to top, #a855f7, #3b82f6);
+            border-radius: 2px;
+            animation: voiceWave 1s ease-in-out infinite;
+        }
+
+        .voice-wave span:nth-child(1) { animation-delay: 0s; }
+        .voice-wave span:nth-child(2) { animation-delay: 0.1s; }
+        .voice-wave span:nth-child(3) { animation-delay: 0.2s; }
+        .voice-wave span:nth-child(4) { animation-delay: 0.3s; }
+        .voice-wave span:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes voiceWave {
+            0%, 100% { height: 8px; }
+            50% { height: 24px; }
+        }
+
+        /* Mic Recording Animation */
+        .mic-recording {
+            animation: micPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes micPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 0 15px rgba(239, 68, 68, 0);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Call Modal Animation */
+        .call-modal {
+            animation: callAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes callAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Speaking Animation */
+        .speaking-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 3px solid #a855f7;
+            animation: speakingRing 1.5s ease-in-out infinite;
+        }
+
+        @keyframes speakingRing {
+            0%, 100% { 
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Error shake */
+        .error-shake {
+            animation: errorShake 0.6s ease-in-out;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white h-screen flex overflow-hidden">
+    
+    <!-- Error Toast Container -->
+    <div id="errorContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    
+    <!-- Voice Call Modal -->
+    <div id="callModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-3xl p-8 w-full max-w-sm mx-4 call-modal border border-gray-700 text-center">
+            <div class="relative inline-block mb-6">
+                <div id="callAvatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-4xl">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <div id="speakingRing" class="speaking-ring hidden"></div>
+            </div>
+            
+            <h3 class="text-xl font-bold gradient-text mb-2">Stela AI</h3>
+            <p id="callStatus" class="text-gray-400 text-sm mb-6">Нажмите на микрофон чтобы говорить</p>
+            
+            <!-- Voice Waves -->
+            <div id="voiceWaves" class="voice-wave h-8 mb-6 opacity-0 transition-opacity">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <!-- Transcript -->
+            <div id="callTranscript" class="bg-gray-700/50 rounded-xl p-3 mb-6 min-h-[60px] text-sm text-gray-300 hidden">
+                <p id="transcriptText" class="italic"></p>
+            </div>
+            
+            <!-- Call Controls -->
+            <div class="flex items-center justify-center gap-4">
+                <button onclick="toggleMic()" id="micBtn" class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center transition-all btn-hover">
+                    <svg id="micIcon" class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                    </svg>
+                </button>
+                
+                <button onclick="toggleSpeaker()" id="speakerBtn" class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center transition-all btn-hover">
+                    <svg id="speakerIcon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                    </svg>
+                </button>
+                
+                <button onclick="endCall()" class="w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center transition-all btn-hover">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <p class="text-xs text-gray-500 mt-4">🎤 Говорите чётко • 🔊 Ответ будет озвучен</p>
+        </div>
+    </div>
+    
+    <!-- Auth Modal (Login/Register) -->
+    <div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 modal-appear border border-gray-700 max-h-[90vh] overflow-y-auto scrollbar-thin">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="authTitle" class="text-xl font-bold gradient-text">Вход в аккаунт</h2>
+                <button onclick="closeAuthModal()" class="p-2 hover:bg-gray-700 rounded-lg transition-all avatar-hover">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Login Form -->
+            <div id="loginForm" class="space-y-4">
+                <div class="slide-in-left">
+                    <label class="block text-sm text-gray-400 mb-2">Email</label>
+                    <input 
+                        type="email" 
+                        id="loginEmail" 
+                        placeholder="email@example.com"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus"
+                    >
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.1s">
+                    <label class="block text-sm text-gray-400 mb-2">Пароль</label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="loginPassword" 
+                            placeholder="Введите пароль..."
+                            class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus pr-12"
+                        >
+                        <button onclick="togglePasswordVisibility('loginPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <p id="loginError" class="text-red-400 text-sm hidden"></p>
+                
+                <button onclick="login()" class="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover ripple slide-in-left" style="animation-delay: 0.2s">
+                    Войти
+                </button>
+                
+                <div class="text-center text-gray-400 text-sm slide-in-left" style="animation-delay: 0.3s">
+                    Нет аккаунта? 
+                    <button onclick="showRegisterForm()" class="text-purple-400 hover:text-purple-300 transition-colors font-medium">
+                        Зарегистрироваться
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Register Form -->
+            <div id="registerForm" class="space-y-4 hidden">
+                <div class="slide-in-left">
+                    <label class="block text-sm text-gray-400 mb-2">Ваше имя <span class="text-red-400">*</span></label>
+                    <input 
+                        type="text" 
+                        id="registerName" 
+                        placeholder="Введите имя..."
+                        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus"
+                    >
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.1s">
+                    <label class="block text-sm text-gray-400 mb-2">Email <span class="text-red-400">*</span></label>
+                    <input 
+                        type="email" 
+                        id="registerEmail" 
+                        placeholder="email@example.com"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus"
+                    >
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.2s">
+                    <label class="block text-sm text-gray-400 mb-2">Пароль <span class="text-red-400">*</span></label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="registerPassword" 
+                            placeholder="Минимум 6 символов..."
+                            class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus pr-12"
+                        >
+                        <button onclick="togglePasswordVisibility('registerPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mt-2 flex gap-1">
+                        <div id="passStrength1" class="h-1 flex-1 bg-gray-600 rounded-full transition-all"></div>
+                        <div id="passStrength2" class="h-1 flex-1 bg-gray-600 rounded-full transition-all"></div>
+                        <div id="passStrength3" class="h-1 flex-1 bg-gray-600 rounded-full transition-all"></div>
+                        <div id="passStrength4" class="h-1 flex-1 bg-gray-600 rounded-full transition-all"></div>
+                    </div>
+                    <p id="passStrengthText" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.3s">
+                    <label class="block text-sm text-gray-400 mb-2">Подтвердите пароль <span class="text-red-400">*</span></label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="registerPasswordConfirm" 
+                            placeholder="Повторите пароль..."
+                            class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus pr-12"
+                        >
+                        <button onclick="togglePasswordVisibility('registerPasswordConfirm', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.4s">
+                    <label class="block text-sm text-gray-400 mb-3">Выберите аватар</label>
+                    <div class="flex gap-3 flex-wrap" id="registerAvatarSelector">
+                        <button onclick="selectRegisterAvatar('🧑')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🧑">🧑</button>
+                        <button onclick="selectRegisterAvatar('👩')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="👩">👩</button>
+                        <button onclick="selectRegisterAvatar('👨')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="👨">👨</button>
+                        <button onclick="selectRegisterAvatar('🦊')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🦊">🦊</button>
+                        <button onclick="selectRegisterAvatar('🐱')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🐱">🐱</button>
+                        <button onclick="selectRegisterAvatar('🐶')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🐶">🐶</button>
+                        <button onclick="selectRegisterAvatar('🦄')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🦄">🦄</button>
+                        <button onclick="selectRegisterAvatar('🤖')" class="register-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🤖">🤖</button>
+                    </div>
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.5s">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="agreeTerms" class="w-4 h-4 rounded border-gray-600 bg-gray-700 text-purple-500 focus:ring-purple-500">
+                        <span class="text-sm text-gray-400">Я согласен с <a href="#" class="text-purple-400 hover:underline">условиями использования</a></span>
+                    </label>
+                </div>
+                
+                <p id="registerError" class="text-red-400 text-sm hidden"></p>
+                
+                <button onclick="register()" class="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover ripple slide-in-left" style="animation-delay: 0.6s">
+                    Создать аккаунт
+                </button>
+                
+                <div class="text-center text-gray-400 text-sm slide-in-left" style="animation-delay: 0.7s">
+                    Уже есть аккаунт? 
+                    <button onclick="showLoginForm()" class="text-purple-400 hover:text-purple-300 transition-colors font-medium">
+                        Войти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Buy Pro Modal -->
+    <div id="buyProModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-lg mx-4 modal-appear border border-gray-700">
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mb-4 welcome-icon">
+                    <span class="text-4xl">⭐</span>
+                </div>
+                <h2 class="text-2xl font-bold gradient-text mb-2">Stela AI Pro</h2>
+                <p class="text-gray-400">Разблокируйте все возможности</p>
+            </div>
+            
+            <!-- Pro Features -->
+            <div class="space-y-3 mb-6">
+                <div class="flex items-center gap-3 p-3 bg-gray-700/50 rounded-xl slide-in-left">
+                    <span class="text-2xl">💻</span>
+                    <div>
+                        <p class="text-white font-medium">Написание кода</p>
+                        <p class="text-xs text-gray-400">Любые языки программирования</p>
+                    </div>
+                    <span class="ml-auto text-green-400">✓</span>
+                </div>
+                
+                <div class="flex items-center gap-3 p-3 bg-gray-700/50 rounded-xl slide-in-left" style="animation-delay: 0.1s">
+                    <span class="text-2xl">🚀</span>
+                    <div>
+                        <p class="text-white font-medium">Приоритетные ответы</p>
+                        <p class="text-xs text-gray-400">Быстрая обработка запросов</p>
+                    </div>
+                    <span class="ml-auto text-green-400">✓</span>
+                </div>
+                
+                <div class="flex items-center gap-3 p-3 bg-gray-700/50 rounded-xl slide-in-left" style="animation-delay: 0.2s">
+                    <span class="text-2xl">📝</span>
+                    <div>
+                        <p class="text-white font-medium">Длинные ответы</p>
+                        <p class="text-xs text-gray-400">До 4000 токенов на ответ</p>
+                    </div>
+                    <span class="ml-auto text-green-400">✓</span>
+                </div>
+                
+                <div class="flex items-center gap-3 p-3 bg-gray-700/50 rounded-xl slide-in-left" style="animation-delay: 0.3s">
+                    <span class="text-2xl">🎨</span>
+                    <div>
+                        <p class="text-white font-medium">Эксклюзивный бейдж</p>
+                        <p class="text-xs text-gray-400">Pro статус в профиле</p>
+                    </div>
+                    <span class="ml-auto text-green-400">✓</span>
+                </div>
+            </div>
+            
+            <!-- Price -->
+            <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-xl p-4 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Стоимость</p>
+                        <div class="flex items-center gap-2">
+                            <span class="text-3xl font-bold text-yellow-400">350</span>
+                            <span class="text-2xl">🪙</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-400 text-sm">Ваш баланс</p>
+                        <div class="flex items-center gap-2">
+                            <span id="buyProBalance" class="text-2xl font-bold text-white">0</span>
+                            <span class="text-xl">🪙</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Прогресс</span>
+                        <span id="buyProProgress">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                        <div id="buyProProgressBar" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full progress-animate" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="flex gap-3">
+                <button onclick="closeBuyProModal()" class="flex-1 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium transition-all btn-hover">
+                    Отмена
+                </button>
+                <button onclick="confirmBuyPro()" id="confirmBuyProBtn" class="flex-1 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover ripple disabled:opacity-50 disabled:cursor-not-allowed">
+                    Купить Pro
+                </button>
+            </div>
+            
+            <p id="buyProError" class="text-center text-red-400 text-sm mt-3 hidden"></p>
+            <p class="text-center text-xs text-gray-500 mt-3">💡 Зарабатывайте коины общаясь со Stela AI (+5 за час)</p>
+        </div>
+    </div>
+    
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 modal-appear border border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold gradient-text">Создать профиль</h2>
+                <button onclick="closeProfileModal()" class="p-2 hover:bg-gray-700 rounded-lg transition-all avatar-hover">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="slide-in-left" style="animation-delay: 0.1s">
+                    <label class="block text-sm text-gray-400 mb-2">Ваше имя</label>
+                    <input 
+                        type="text" 
+                        id="profileName" 
+                        placeholder="Введите имя..."
+                        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus"
+                    >
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.2s">
+                    <label class="block text-sm text-gray-400 mb-2">Email (необязательно)</label>
+                    <input 
+                        type="email" 
+                        id="profileEmail" 
+                        placeholder="email@example.com"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus"
+                    >
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.3s">
+                    <label class="block text-sm text-gray-400 mb-3">Выберите аватар</label>
+                    <div class="flex gap-3 flex-wrap" id="avatarSelector">
+                        <button onclick="selectAvatar('🧑')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🧑">🧑</button>
+                        <button onclick="selectAvatar('👩')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="👩">👩</button>
+                        <button onclick="selectAvatar('👨')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="👨">👨</button>
+                        <button onclick="selectAvatar('🦊')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🦊">🦊</button>
+                        <button onclick="selectAvatar('🐱')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🐱">🐱</button>
+                        <button onclick="selectAvatar('🐶')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🐶">🐶</button>
+                        <button onclick="selectAvatar('🦄')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🦄">🦄</button>
+                        <button onclick="selectAvatar('🤖')" class="avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🤖">🤖</button>
+                    </div>
+                </div>
+                
+                <button onclick="saveProfile()" class="w-full mt-4 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover ripple slide-in-left" style="animation-delay: 0.4s">
+                    Сохранить профиль
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Updates Modal -->
+    <div id="updatesModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-lg mx-4 modal-appear border border-gray-700 max-h-[90vh] overflow-y-auto scrollbar-thin">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold gradient-text flex items-center gap-2">
+                    <span class="rotate-in">🚀</span> Обновления Stela AI
+                </h2>
+                <button onclick="closeUpdatesModal()" class="p-2 hover:bg-gray-700 rounded-lg transition-all avatar-hover">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Version 1.0 -->
+                <div class="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-4 slide-in-left shimmer">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="px-2 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold scale-in">NEW</span>
+                        <span class="text-white font-bold">Версия 1.0</span>
+                        <span class="text-gray-500 text-xs">— Релиз</span>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-1.5">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>🚀 Запуск Stela AI</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>🔐 Регистрация и авторизация</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>💬 История чатов</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>🪙 Система коинов (+5 за час)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>⭐ Pro версия за 350 коинов</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>🎤 Голосовой ввод и синтез речи</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>📞 Режим голосового звонка</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>✨ Красивые анимации</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>💾 Автосохранение данных</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700 text-center">
+                <p class="text-gray-400 text-sm">Stela AI от lmstudio ai</p>
+                <p class="text-gray-500 text-xs mt-1">Текущая версия: 1.0</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 modal-appear border border-gray-700 max-h-[90vh] overflow-y-auto scrollbar-thin">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold gradient-text">Настройки профиля</h2>
+                <button onclick="closeSettingsModal()" class="p-2 hover:bg-gray-700 rounded-lg transition-all avatar-hover">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Coins Display -->
+                <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-xl p-4 shimmer scale-in">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-2xl shadow-lg float">
+                                🪙
+                            </div>
+                            <div>
+                                <p class="text-yellow-400 font-bold text-lg" id="settingsCoins">0</p>
+                                <p class="text-xs text-gray-400">Ваши коины</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400">+5 коинов</p>
+                            <p class="text-xs text-yellow-400">каждый час</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Voice Settings -->
+                <div class="bg-gray-700/30 border border-gray-700 rounded-xl p-4 slide-in-left">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🔊</span>
+                            <div>
+                                <p class="text-white font-medium">Озвучивание ответов</p>
+                                <p class="text-xs text-gray-400">Stela будет говорить вслух</p>
+                            </div>
+                        </div>
+                        <button onclick="toggleTTS()" id="ttsToggle" class="w-12 h-6 bg-gray-600 rounded-full relative transition-all">
+                            <div id="ttsToggleCircle" class="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-all"></div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.1s">
+                    <label class="block text-sm text-gray-400 mb-2">Ваше имя</label>
+                    <input 
+                        type="text" 
+                        id="settingsName" 
+                        placeholder="Введите имя..."
+                        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus"
+                    >
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.2s">
+                    <label class="block text-sm text-gray-400 mb-2">Email</label>
+                    <input 
+                        type="email" 
+                        id="settingsEmail" 
+                        placeholder="email@example.com"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all input-focus"
+                    >
+                </div>
+                
+                <div class="slide-in-left" style="animation-delay: 0.3s">
+                    <label class="block text-sm text-gray-400 mb-3">Аватар</label>
+                    <div class="flex gap-3 flex-wrap" id="settingsAvatarSelector">
+                        <button onclick="selectSettingsAvatar('🧑')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🧑">🧑</button>
+                        <button onclick="selectSettingsAvatar('👩')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="👩">👩</button>
+                        <button onclick="selectSettingsAvatar('👨')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="👨">👨</button>
+                        <button onclick="selectSettingsAvatar('🦊')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🦊">🦊</button>
+                        <button onclick="selectSettingsAvatar('🐱')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🐱">🐱</button>
+                        <button onclick="selectSettingsAvatar('🐶')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🐶">🐶</button>
+                        <button onclick="selectSettingsAvatar('🦄')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🦄">🦄</button>
+                        <button onclick="selectSettingsAvatar('🤖')" class="settings-avatar-btn avatar-hover w-12 h-12 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-2xl transition-all border-2 border-transparent" data-avatar="🤖">🤖</button>
+                    </div>
+                </div>
+                
+                <!-- Plan Section -->
+                <div class="pt-4 border-t border-gray-700 slide-in-left" style="animation-delay: 0.4s">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <p class="text-white font-medium">Тарифный план</p>
+                            <p id="currentPlan" class="text-sm text-gray-400">Бесплатный</p>
+                        </div>
+                        <div id="planStatus" class="px-3 py-1.5 bg-gray-700 rounded-lg text-sm text-gray-400">
+                            Free
+                        </div>
+                    </div>
+                    
+                    <!-- Upgrade Button -->
+                    <div id="upgradeSection" class="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-4 gradient-border">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <p class="text-purple-400 font-bold flex items-center gap-2">
+                                    <span class="sparkle">⭐</span> Pro версия
+                                </p>
+                                <p class="text-xs text-gray-400 mt-1">Написание кода, программирование</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-yellow-400 font-bold flex items-center gap-1">
+                                    🪙 350
+                                </p>
+                                <p class="text-xs text-gray-500">коинов</p>
+                            </div>
+                        </div>
+                        <button onclick="openBuyProModal()" id="upgradeBtn" class="w-full py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all flex items-center justify-center gap-2 btn-hover ripple">
+                            <span>🚀</span>
+                            <span>Улучшить до Pro</span>
+                        </button>
+                        <p id="upgradeError" class="text-xs text-red-400 mt-2 hidden text-center"></p>
+                    </div>
+                    
+                    <p class="text-xs text-gray-500 mt-3">💡 Общайтесь со Stela AI чтобы заработать коины (+5 за час)</p>
+                </div>
+                
+                <div class="flex gap-3 pt-2 slide-in-left" style="animation-delay: 0.5s">
+                    <button onclick="updateProfile()" class="flex-1 py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover ripple">
+                        Сохранить
+                    </button>
+                    <button onclick="logout()" class="px-6 py-3 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl font-medium transition-all btn-hover">
+                        Выйти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-72 bg-gray-950 flex flex-col border-r border-gray-800 transition-all duration-300">
+        <!-- New Chat Button -->
+        <div class="p-4">
+            <button onclick="newChat()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-700 hover:bg-gray-800 transition-all duration-200 group btn-hover ripple">
+                <svg class="w-5 h-5 text-purple-400 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span class="text-gray-300 group-hover:text-white">Новый чат</span>
+            </button>
+        </div>
+        
+        <!-- Chat History -->
+        <div class="flex-1 overflow-y-auto scrollbar-thin px-3">
+            <div class="text-xs text-gray-500 px-3 py-2 font-medium">Сегодня</div>
+            <div id="chatHistory" class="space-y-1">
+            </div>
+        </div>
+        
+        <!-- Coins Display in Sidebar -->
+        <div class="px-4 py-3 border-t border-gray-800">
+            <div class="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-xl px-3 py-2 border border-yellow-500/20">
+                <div class="flex items-center justify-between mb-1.5">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg float">🪙</span>
+                        <span id="sidebarCoins" class="text-yellow-400 font-bold">0</span>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        ⏱️ <span id="chatTimer">00:00</span>
+                    </div>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                    <div id="coinProgress" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-1.5 rounded-full progress-animate" style="width: 0%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 text-center">До +5 🪙: <span id="timeToCoins">60:00</span></p>
+            </div>
+        </div>
+        
+        <!-- Updates Button -->
+        <div class="px-4 py-2">
+            <button onclick="openUpdatesModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-800 transition-all text-gray-400 hover:text-white group chat-item">
+                <span class="text-lg group-hover:rotate-12 transition-transform">🚀</span>
+                <span class="text-sm">Обновления</span>
+                <span class="ml-auto px-1.5 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold scale-in">1.0</span>
+            </button>
+        </div>
+        
+        <!-- User Section -->
+        <div class="p-4 border-t border-gray-800">
+            <div id="userSection" onclick="handleUserClick()" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-800 cursor-pointer transition-all chat-item">
+                <div id="userAvatar" class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center font-semibold text-sm avatar-hover">
+                    ?
+                </div>
+                <div class="flex-1 min-w-0">
+                    <span id="userName" class="text-gray-300 text-sm block truncate">Гость</span>
+                    <span id="userPlanBadge" class="text-xs text-gray-500">Бесплатный план</span>
+                </div>
+                <svg class="w-4 h-4 text-gray-500 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col bg-gray-900">
+        <!-- Header -->
+        <header class="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="p-2 hover:bg-gray-800 rounded-lg transition-all lg:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 flex items-center justify-center glow logo-spin">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-bold gradient-text">Stela AI</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <!-- Voice Call Button -->
+                <button onclick="startCall()" class="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 rounded-full transition-all btn-hover" title="Голосовой звонок">
+                    <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    <span class="text-green-400 text-sm font-medium hidden sm:block">Позвонить</span>
+                </button>
+                <!-- Coins in Header -->
+                <div class="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 border border-yellow-500/20 rounded-full">
+                    <span class="text-sm float">🪙</span>
+                    <span id="headerCoins" class="text-yellow-400 font-medium text-sm">0</span>
+                </div>
+                <div id="statusIndicator" class="flex items-center gap-2 px-3 py-1 rounded-full text-xs">
+                    <div class="w-2 h-2 rounded-full bg-green-400 status-dot"></div>
+                    <span class="text-gray-400">Онлайн</span>
+                </div>
+                <span id="headerPlanBadge" class="px-3 py-1 bg-gray-700 text-gray-400 rounded-full text-xs font-medium">Free</span>
+            </div>
+        </header>
+        
+        <!-- Chat Area -->
+        <div id="chatArea" class="flex-1 overflow-y-auto scrollbar-thin">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen" class="h-full flex flex-col items-center justify-center px-4">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 flex items-center justify-center mb-6 welcome-icon">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold mb-3 gradient-text scale-in">Привет! Я Stela AI</h2>
+                <p class="text-gray-400 text-center max-w-md slide-in-left">Ваш интеллектуальный помощник. Задайте любой вопрос, и я постараюсь помочь!</p>
+            </div>
+            
+            <!-- Messages Container -->
+            <div id="messagesContainer" class="hidden max-w-4xl mx-auto px-4 py-6 space-y-6">
+            </div>
+        </div>
+        
+        <!-- Input Area -->
+        <div class="p-4 border-t border-gray-800">
+            <div class="max-w-4xl mx-auto">
+                <div class="relative flex items-end bg-gray-800 rounded-2xl border border-gray-700 focus-within:border-purple-500 transition-all input-focus">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Напишите сообщение..."
+                        rows="1"
+                        class="flex-1 bg-transparent px-4 py-4 text-white placeholder-gray-500 resize-none focus:outline-none max-h-40 scrollbar-thin"
+                        onkeydown="handleKeyDown(event)"
+                        oninput="autoResize(this)"
+                    ></textarea>
+                    
+                    <!-- Voice Input Button -->
+                    <button 
+                        id="voiceInputBtn"
+                        onclick="toggleVoiceInput()" 
+                        class="m-2 p-3 bg-gray-700 hover:bg-gray-600 rounded-xl transition-all btn-hover"
+                        title="Голосовой ввод"
+                    >
+                        <svg id="voiceInputIcon" class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- TTS Toggle Button -->
+                    <button 
+                        id="ttsBtn"
+                        onclick="toggleTTSBtn()" 
+                        class="m-2 p-3 bg-gray-700 hover:bg-gray-600 rounded-xl transition-all btn-hover"
+                        title="Озвучивать ответы"
+                    >
+                        <svg id="ttsIcon" class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                        </svg>
+                    </button>
+                    
+                    <button 
+                        id="sendBtn"
+                        onclick="sendMessage()" 
+                        class="m-2 p-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed btn-hover send-btn-pulse ripple"
+                    >
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </button>
+                    <button 
+                        id="stopBtn"
+                        onclick="stopGeneration()" 
+                        class="m-2 p-3 bg-red-500 hover:bg-red-600 rounded-xl transition-all hidden btn-hover ripple"
+                    >
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-3">Stela AI от lmstudio ai • Может допускать ошибки</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ============ STATE VARIABLES ============
+        let messages = [];
+        let conversationHistory = [];
+        let chatHistoryList = [];
+        let currentChatId = null;
+        let isGenerating = false;
+        let abortController = null;
+        let selectedAvatar = '🧑';
+        let selectedSettingsAvatar = '🧑';
+
+        // Chat timer
+        let chatStartTime = null;
+        let chatTimerInterval = null;
+        let lastCoinAwardTime = null;
+        let accumulatedChatTime = 0;
+
+        // Voice & TTS
+        let recognition = null;
+        let isListening = false;
+        let ttsEnabled = false;
+        let isSpeaking = false;
+        let currentUtterance = null;
+        let isInCall = false;
+
+        // User profile
+        let userProfile = {
+            name: '',
+            email: '',
+            avatar: '🧑',
+            isPro: false,
+            coins: 0,
+            totalChatTime: 0,
+            ttsEnabled: false,
+            createdAt: null
+        };
+
+        // Constants
+        const API_KEY = 'GCm6eM9QprwRlpNdmok3mi0r40lAacfg';
+        const API_URL = 'https://api.mistral.ai/v1/chat/completions';
+        const PRO_PRICE = 350;
+        const COINS_PER_HOUR = 5;
+
+        // ============ ERROR HANDLING ============
+        function showError(message, type = 'error') {
+            const container = document.getElementById('errorContainer');
+            const toast = document.createElement('div');
+            
+            const bgColor = type === 'error' ? 'from-red-500 to-red-600' : 
+                           type === 'warning' ? 'from-yellow-500 to-orange-500' : 
+                           'from-green-500 to-emerald-500';
+            
+            const icon = type === 'error' ? '❌' : type === 'warning' ? '⚠️' : '✅';
+            
+            toast.className = `bg-gradient-to-r ${bgColor} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 slide-in-right`;
+            toast.innerHTML = `
+                <span class="text-xl">${icon}</span>
+                <p class="text-sm font-medium">${message}</p>
+                <button onclick="this.parentElement.remove()" class="ml-2 hover:bg-white/20 rounded p-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                toast.style.transition = 'all 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        function checkBrowserSupport() {
+            const issues = [];
+            
+            if (!('speechSynthesis' in window)) {
+                issues.push('Синтез речи не поддерживается');
+            }
+            
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                issues.push('Распознавание речи не поддерживается');
+            }
+            
+            if (!('localStorage' in window)) {
+                issues.push('localStorage не доступен');
+            }
+            
+            if (issues.length > 0) {
+                showError('Браузер не поддерживает: ' + issues.join(', '), 'warning');
+            }
+            
+            return issues.length === 0;
+        }
+
+        // ============ SPEECH RECOGNITION ============
+        function initSpeechRecognition() {
+            try {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    console.warn('Speech Recognition not supported');
+                    return false;
+                }
+                
+                recognition = new SpeechRecognition();
+                recognition.lang = 'ru-RU';
+                recognition.continuous = false;
+                recognition.interimResults = true;
+                
+                recognition.onstart = () => {
+                    isListening = true;
+                    updateVoiceUI();
+                };
+                
+                recognition.onresult = (event) => {
+                    let transcript = '';
+                    let isFinal = false;
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            isFinal = true;
+                        }
+                    }
+                    
+                    if (isInCall) {
+                        document.getElementById('transcriptText').textContent = transcript;
+                        document.getElementById('callTranscript').classList.remove('hidden');
+                        
+                        if (isFinal && transcript.trim()) {
+                            // Останавливаем распознавание перед отправкой
+                            recognition.stop();
+                            setTimeout(() => {
+                                sendCallMessage(transcript);
+                            }, 300);
+                        }
+                    } else {
+                        document.getElementById('messageInput').value = transcript;
+                    }
+                };
+                
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    isListening = false;
+                    updateVoiceUI();
+                    
+                    if (event.error === 'not-allowed') {
+                        showError('Доступ к микрофону запрещён. Разрешите доступ в настройках браузера.', 'error');
+                    } else if (event.error === 'no-speech') {
+                        showError('Речь не обнаружена. Попробуйте ещё раз.', 'warning');
+                    } else {
+                        showError('error Stela AI: Ошибка распознавания речи', 'error');
+                    }
+                };
+                
+                recognition.onend = () => {
+                    isListening = false;
+                    updateVoiceUI();
+                    
+                    if (isInCall && !isSpeaking && !isGenerating) {
+                        // Continue listening in call mode
+                    }
+                };
+                
+                return true;
+            } catch (e) {
+                console.error('Failed to init speech recognition:', e);
+                showError('error Stela AI: Не удалось инициализировать распознавание речи', 'error');
+                return false;
+            }
+        }
+
+        function toggleVoiceInput() {
+            if (!recognition) {
+                if (!initSpeechRecognition()) {
+                    showError('Распознавание речи не поддерживается в вашем браузере', 'warning');
+                    return;
+                }
+            }
+            
+            if (isListening) {
+                recognition.stop();
+            } else {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    showError('error Stela AI: Не удалось запустить распознавание', 'error');
+                }
+            }
+        }
+
+        function updateVoiceUI() {
+            const btn = document.getElementById('voiceInputBtn');
+            const icon = document.getElementById('voiceInputIcon');
+            
+            if (isListening) {
+                btn.classList.add('bg-red-500', 'mic-recording');
+                btn.classList.remove('bg-gray-700');
+                icon.classList.add('text-white');
+                icon.classList.remove('text-gray-300');
+            } else {
+                btn.classList.remove('bg-red-500', 'mic-recording');
+                btn.classList.add('bg-gray-700');
+                icon.classList.remove('text-white');
+                icon.classList.add('text-gray-300');
+            }
+        }
+
+        // ============ TEXT-TO-SPEECH ============
+        function speak(text) {
+            if (!ttsEnabled || !('speechSynthesis' in window)) return;
+            
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+            
+            // Clean text for speech - remove emojis and formatting
+            const cleanText = text
+                // Remove emojis
+                .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
+                .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Misc Symbols and Pictographs
+                .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport and Map
+                .replace(/[\u{1F1E0}-\u{1F1FF}]/gu, '') // Flags
+                .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Misc symbols
+                .replace(/[\u{2700}-\u{27BF}]/gu, '')   // Dingbats
+                .replace(/[\u{FE00}-\u{FE0F}]/gu, '')   // Variation Selectors
+                .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental Symbols
+                .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '') // Chess Symbols
+                .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and Pictographs Extended-A
+                .replace(/[\u{231A}-\u{231B}]/gu, '')   // Watch, Hourglass
+                .replace(/[\u{23E9}-\u{23F3}]/gu, '')   // Media controls
+                .replace(/[\u{23F8}-\u{23FA}]/gu, '')   // Media controls
+                .replace(/[\u{25AA}-\u{25AB}]/gu, '')   // Squares
+                .replace(/[\u{25B6}]/gu, '')            // Play button
+                .replace(/[\u{25C0}]/gu, '')            // Reverse button
+                .replace(/[\u{25FB}-\u{25FE}]/gu, '')   // Squares
+                .replace(/[\u{2614}-\u{2615}]/gu, '')   // Umbrella, Hot beverage
+                .replace(/[\u{2648}-\u{2653}]/gu, '')   // Zodiac
+                .replace(/[\u{267F}]/gu, '')            // Wheelchair
+                .replace(/[\u{2693}]/gu, '')            // Anchor
+                .replace(/[\u{26A1}]/gu, '')            // High voltage
+                .replace(/[\u{26AA}-\u{26AB}]/gu, '')   // Circles
+                .replace(/[\u{26BD}-\u{26BE}]/gu, '')   // Soccer, Baseball
+                .replace(/[\u{26C4}-\u{26C5}]/gu, '')   // Snowman, Sun
+                .replace(/[\u{26CE}]/gu, '')            // Ophiuchus
+                .replace(/[\u{26D4}]/gu, '')            // No entry
+                .replace(/[\u{26EA}]/gu, '')            // Church
+                .replace(/[\u{26F2}-\u{26F3}]/gu, '')   // Fountain, Golf
+                .replace(/[\u{26F5}]/gu, '')            // Sailboat
+                .replace(/[\u{26FA}]/gu, '')            // Tent
+                .replace(/[\u{26FD}]/gu, '')            // Fuel pump
+                .replace(/[\u{2702}]/gu, '')            // Scissors
+                .replace(/[\u{2705}]/gu, '')            // Check mark
+                .replace(/[\u{2708}-\u{270D}]/gu, '')   // Airplane to Writing hand
+                .replace(/[\u{270F}]/gu, '')            // Pencil
+                .replace(/[\u{2712}]/gu, '')            // Black nib
+                .replace(/[\u{2714}]/gu, '')            // Check mark
+                .replace(/[\u{2716}]/gu, '')            // X mark
+                .replace(/[\u{271D}]/gu, '')            // Latin cross
+                .replace(/[\u{2721}]/gu, '')            // Star of David
+                .replace(/[\u{2728}]/gu, '')            // Sparkles
+                .replace(/[\u{2733}-\u{2734}]/gu, '')   // Eight spoked asterisk
+                .replace(/[\u{2744}]/gu, '')            // Snowflake
+                .replace(/[\u{2747}]/gu, '')            // Sparkle
+                .replace(/[\u{274C}]/gu, '')            // Cross mark
+                .replace(/[\u{274E}]/gu, '')            // Cross mark
+                .replace(/[\u{2753}-\u{2755}]/gu, '')   // Question marks
+                .replace(/[\u{2757}]/gu, '')            // Exclamation mark
+                .replace(/[\u{2763}-\u{2764}]/gu, '')   // Heart exclamation, Heart
+                .replace(/[\u{2795}-\u{2797}]/gu, '')   // Plus, Minus, Divide
+                .replace(/[\u{27A1}]/gu, '')            // Right arrow
+                .replace(/[\u{27B0}]/gu, '')            // Curly loop
+                .replace(/[\u{27BF}]/gu, '')            // Double curly loop
+                .replace(/[\u{2934}-\u{2935}]/gu, '')   // Arrows
+                .replace(/[\u{2B05}-\u{2B07}]/gu, '')   // Arrows
+                .replace(/[\u{2B1B}-\u{2B1C}]/gu, '')   // Squares
+                .replace(/[\u{2B50}]/gu, '')            // Star
+                .replace(/[\u{2B55}]/gu, '')            // Circle
+                .replace(/[\u{3030}]/gu, '')            // Wavy dash
+                .replace(/[\u{303D}]/gu, '')            // Part alternation mark
+                .replace(/[\u{3297}]/gu, '')            // Circled Ideograph Congratulation
+                .replace(/[\u{3299}]/gu, '')            // Circled Ideograph Secret
+                .replace(/[\u{1F004}]/gu, '')           // Mahjong
+                .replace(/[\u{1F0CF}]/gu, '')           // Joker
+                .replace(/[\u{1F170}-\u{1F171}]/gu, '') // A, B buttons
+                .replace(/[\u{1F17E}-\u{1F17F}]/gu, '') // O, P buttons
+                .replace(/[\u{1F18E}]/gu, '')           // AB button
+                .replace(/[\u{1F191}-\u{1F19A}]/gu, '') // Squared words
+                .replace(/[\u{1F201}-\u{1F202}]/gu, '') // Japanese buttons
+                .replace(/[\u{1F21A}]/gu, '')           // Japanese button
+                .replace(/[\u{1F22F}]/gu, '')           // Japanese button
+                .replace(/[\u{1F232}-\u{1F23A}]/gu, '') // Japanese buttons
+                .replace(/[\u{1F250}-\u{1F251}]/gu, '') // Japanese buttons
+                // Remove code blocks
+                .replace(/```[\s\S]*?```/g, 'блок кода')
+                .replace(/`[^`]+`/g, '')
+                // Remove markdown formatting
+                .replace(/\*\*/g, '')
+                .replace(/\*/g, '')
+                .replace(/#{1,6}\s/g, '')
+                .replace(/\[.*?\]\(.*?\)/g, '')
+                .replace(/[•\-]\s/g, '')
+                .replace(/\n+/g, '. ')
+                // Clean up extra spaces
+                .replace(/\s+/g, ' ')
+                .trim();
+            
+            if (!cleanText.trim()) return;
+            
+            currentUtterance = new SpeechSynthesisUtterance(cleanText);
+            currentUtterance.lang = 'ru-RU';
+            currentUtterance.rate = 1;
+            currentUtterance.pitch = 1;
+            
+            // Try to find a Russian voice
+            const voices = window.speechSynthesis.getVoices();
+            const russianVoice = voices.find(v => v.lang.startsWith('ru'));
+            if (russianVoice) {
+                currentUtterance.voice = russianVoice;
+            }
+            
+            currentUtterance.onstart = () => {
+                isSpeaking = true;
+                if (isInCall) {
+                    document.getElementById('speakingRing').classList.remove('hidden');
+                    document.getElementById('voiceWaves').classList.add('opacity-100');
+                    document.getElementById('voiceWaves').classList.remove('opacity-0');
+                    document.getElementById('callStatus').textContent = 'Stela говорит...';
+                }
+            };
+            
+            currentUtterance.onend = () => {
+                isSpeaking = false;
+                if (isInCall) {
+                    document.getElementById('speakingRing').classList.add('hidden');
+                    document.getElementById('voiceWaves').classList.remove('opacity-100');
+                    document.getElementById('voiceWaves').classList.add('opacity-0');
+                    document.getElementById('callStatus').textContent = 'Нажмите на микрофон чтобы говорить';
+                }
+            };
+            
+            currentUtterance.onerror = (e) => {
+                isSpeaking = false;
+                console.error('TTS Error:', e);
+            };
+            
+            window.speechSynthesis.speak(currentUtterance);
+        }
+
+        function stopSpeaking() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+            }
+        }
+
+        function toggleTTS() {
+            ttsEnabled = !ttsEnabled;
+            userProfile.ttsEnabled = ttsEnabled;
+            saveProfileToStorage();
+            updateTTSUI();
+        }
+
+        function toggleTTSBtn() {
+            toggleTTS();
+        }
+
+        function toggleSpeaker() {
+            toggleTTS();
+            const btn = document.getElementById('speakerBtn');
+            if (ttsEnabled) {
+                btn.classList.add('bg-purple-500');
+                btn.classList.remove('bg-gray-700');
+            } else {
+                btn.classList.remove('bg-purple-500');
+                btn.classList.add('bg-gray-700');
+            }
+        }
+
+        function updateTTSUI() {
+            const btn = document.getElementById('ttsBtn');
+            const icon = document.getElementById('ttsIcon');
+            const toggle = document.getElementById('ttsToggle');
+            const toggleCircle = document.getElementById('ttsToggleCircle');
+            
+            if (ttsEnabled) {
+                btn?.classList.add('bg-purple-500');
+                btn?.classList.remove('bg-gray-700');
+                icon?.classList.add('text-white');
+                icon?.classList.remove('text-gray-300');
+                toggle?.classList.add('bg-purple-500');
+                toggle?.classList.remove('bg-gray-600');
+                toggleCircle?.classList.add('translate-x-6');
+            } else {
+                btn?.classList.remove('bg-purple-500');
+                btn?.classList.add('bg-gray-700');
+                icon?.classList.remove('text-white');
+                icon?.classList.add('text-gray-300');
+                toggle?.classList.remove('bg-purple-500');
+                toggle?.classList.add('bg-gray-600');
+                toggleCircle?.classList.remove('translate-x-6');
+            }
+        }
+
+        // ============ VOICE CALL ============
+        function startCall() {
+            isInCall = true;
+            ttsEnabled = true;
+            updateTTSUI();
+            
+            // Очищаем и показываем модальное окно
+            document.getElementById('callModal').classList.remove('hidden');
+            document.getElementById('callModal').classList.add('flex');
+            document.getElementById('callStatus').textContent = 'Нажмите на микрофон чтобы говорить';
+            document.getElementById('callTranscript').classList.add('hidden');
+            document.getElementById('transcriptText').textContent = '';
+            document.getElementById('voiceWaves').classList.remove('opacity-100');
+            document.getElementById('voiceWaves').classList.add('opacity-0');
+            document.getElementById('speakingRing').classList.add('hidden');
+            
+            // Убираем класс записи с кнопки микрофона
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.remove('mic-recording');
+            
+            if (!recognition) {
+                initSpeechRecognition();
+            }
+            
+            // Update speaker button state
+            const speakerBtn = document.getElementById('speakerBtn');
+            speakerBtn.classList.add('bg-purple-500');
+            speakerBtn.classList.remove('bg-gray-700');
+        }
+
+        function endCall() {
+            isInCall = false;
+            
+            if (isListening && recognition) {
+                recognition.stop();
+            }
+            
+            stopSpeaking();
+            
+            document.getElementById('callModal').classList.add('hidden');
+            document.getElementById('callModal').classList.remove('flex');
+        }
+
+        function toggleMic() {
+            if (!recognition) {
+                if (!initSpeechRecognition()) {
+                    showError('error Stela AI: Микрофон не доступен', 'error');
+                    return;
+                }
+            }
+            
+            const micBtn = document.getElementById('micBtn');
+            
+            if (isListening) {
+                recognition.stop();
+                micBtn.classList.remove('mic-recording');
+                document.getElementById('callStatus').textContent = 'Нажмите на микрофон чтобы говорить';
+                document.getElementById('voiceWaves').classList.remove('opacity-100');
+                document.getElementById('voiceWaves').classList.add('opacity-0');
+            } else {
+                try {
+                    // Очищаем предыдущий транскрипт
+                    document.getElementById('transcriptText').textContent = '';
+                    document.getElementById('callTranscript').classList.add('hidden');
+                    
+                    recognition.start();
+                    micBtn.classList.add('mic-recording');
+                    document.getElementById('callStatus').textContent = 'Слушаю...';
+                    document.getElementById('voiceWaves').classList.add('opacity-100');
+                    document.getElementById('voiceWaves').classList.remove('opacity-0');
+                } catch (e) {
+                    showError('error Stela AI: Не удалось запустить микрофон', 'error');
+                }
+            }
+        }
+
+        async function sendCallMessage(text) {
+            if (!text.trim() || isGenerating) return;
+            
+            // Сохраняем текст и очищаем транскрипт
+            const messageText = text.trim();
+            document.getElementById('transcriptText').textContent = '';
+            
+            document.getElementById('callStatus').textContent = 'Stela думает...';
+            document.getElementById('voiceWaves').classList.remove('opacity-100');
+            document.getElementById('voiceWaves').classList.add('opacity-0');
+            
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.remove('mic-recording');
+            
+            // Add to chat history
+            if (!chatTimerInterval) startChatTimer();
+            
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('messagesContainer').classList.remove('hidden');
+            
+            addMessage(messageText, 'user');
+            
+            if (!currentChatId) {
+                currentChatId = Date.now();
+                addToChatHistory(messageText);
+            }
+            
+            const aiMessageElement = createAIMessagePlaceholder();
+            isGenerating = true;
+            
+            try {
+                const response = await callAPI(messageText);
+                const fullResponse = await streamResponse(response, aiMessageElement);
+                saveCurrentChat();
+                
+                // Speak the response in call mode
+                if (fullResponse) {
+                    speak(fullResponse);
+                }
+            } catch (error) {
+                console.error('Call API Error:', error);
+                const errorMsg = `error Stela AI: ${error.message}`;
+                updateMessageContent(aiMessageElement, `❌ ${errorMsg}`);
+                showError(errorMsg, 'error');
+                document.getElementById('callStatus').textContent = 'Ошибка. Попробуйте ещё раз';
+            } finally {
+                isGenerating = false;
+                const loader = aiMessageElement.querySelector('.typing-loader');
+                if (loader) loader.remove();
+            }
+        }
+
+        // ============ SYSTEM PROMPT ============
+        function getSystemPrompt() {
+            const userName = userProfile.name || 'Пользователь';
+            const planType = userProfile.isPro ? 'Pro' : 'бесплатной';
+            
+            const proFeatures = userProfile.isPro ? 
+                `- У пользователя Pro версия, ты можешь писать код и помогать с программированием` :
+                `- У пользователя БЕСПЛАТНАЯ версия, ты НЕ МОЖЕШЬ писать код. Если просят код, скажи что это доступно только в Pro версии`;
+            
+            return `Ты — Stela AI, дружелюбный и умный AI-ассистент.
+
+ВАЖНАЯ ИНФОРМАЦИЯ О ТЕБЕ:
+- Ты создан командой lmstudio ai
+- Ты говоришь на русском языке, если пользователь не просит иначе
+- Ты помогаешь с любыми вопросами: наука, творчество, советы и многое другое
+
+ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:
+- Имя пользователя: ${userName}
+- Тип аккаунта: ${planType} версия
+- Баланс коинов: ${userProfile.coins} 🪙
+${proFeatures}
+
+СИСТЕМА КОИНОВ:
+- Бесплатная версия: общение, ответы на вопросы, объяснения, советы. НО БЕЗ КОДА!
+- Pro версия (350 коинов): всё из бесплатной + написание кода
+- Каждый час общения = +5 коинов
+- Pro можно купить ТОЛЬКО за коины в настройках профиля
+
+ОГРАНИЧЕНИЯ ДЛЯ БЕСПЛАТНОЙ ВЕРСИИ:
+- Если у пользователя бесплатная версия и он просит код — НЕ ПИШИ КОД!
+- Скажи: "✨ Написание кода доступно только в Pro версии! Накопи 350 коинов и купи Pro в настройках. Сейчас у тебя ${userProfile.coins} 🪙"
+
+СПЕЦИАЛЬНЫЕ СЛУЧАИ:
+- Если спрашивают "Кто тебя создал?" — ВСЕГДА отвечай: "Меня создала команда lmstudio ai! 🚀"
+- Если спрашивают про коины — объясни систему
+- Если пользователь здоровается — поприветствуй по имени`;
+        }
+
+        // ============ INITIALIZE ============
+        document.addEventListener('DOMContentLoaded', () => {
+            checkBrowserSupport();
+            loadUsers();
+            loadProfile();
+            loadChatHistory();
+            loadChatTimer();
+            updateUI();
+            updateCoinsDisplay();
+            updateTTSUI();
+            
+            // Load voices for TTS
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = () => {
+                    window.speechSynthesis.getVoices();
+                };
+            }
+            
+            // Password strength listener
+            const passInput = document.getElementById('registerPassword');
+            if (passInput) {
+                passInput.addEventListener('input', updatePasswordStrength);
+            }
+            
+            document.getElementById('messageInput').focus();
+            
+            window.addEventListener('beforeunload', saveAllData);
+            setInterval(saveAllData, 30000);
+        });
+
+        // ============ SAVE DATA ============
+        function saveAllData() {
+            saveProfileToStorage();
+            saveChatHistory();
+            saveChatTimer();
+        }
+
+        // ============ CHAT TIMER ============
+        function saveChatTimer() {
+            if (chatStartTime) {
+                const currentSessionTime = Date.now() - chatStartTime;
+                const totalTime = accumulatedChatTime + currentSessionTime;
+                localStorage.setItem('stelaChatTimer', JSON.stringify({
+                    accumulatedTime: totalTime,
+                    lastCoinAwardTime: lastCoinAwardTime,
+                    savedAt: Date.now()
+                }));
+            }
+        }
+
+        function loadChatTimer() {
+            try {
+                const saved = localStorage.getItem('stelaChatTimer');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    accumulatedChatTime = data.accumulatedTime || 0;
+                    lastCoinAwardTime = data.lastCoinAwardTime || Date.now();
+                    
+                    const totalMinutes = Math.floor(accumulatedChatTime / 60000);
+                    const totalSeconds = Math.floor((accumulatedChatTime % 60000) / 1000);
+                    document.getElementById('chatTimer').textContent = 
+                        `${String(totalMinutes).padStart(2, '0')}:${String(totalSeconds).padStart(2, '0')}`;
+                }
+            } catch (e) {
+                console.error('Failed to load chat timer:', e);
+                showError('error Stela AI: Не удалось загрузить таймер', 'warning');
+            }
+        }
+
+        function startChatTimer() {
+            if (chatTimerInterval) return;
+            
+            chatStartTime = Date.now();
+            if (!lastCoinAwardTime) {
+                lastCoinAwardTime = Date.now() - (accumulatedChatTime % 3600000);
+            }
+            
+            chatTimerInterval = setInterval(() => {
+                const currentSessionTime = Date.now() - chatStartTime;
+                const totalElapsed = accumulatedChatTime + currentSessionTime;
+                const minutes = Math.floor(totalElapsed / 60000);
+                const seconds = Math.floor((totalElapsed % 60000) / 1000);
+                
+                document.getElementById('chatTimer').textContent = 
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                
+                const timeSinceLastAward = Date.now() - lastCoinAwardTime;
+                const progress = Math.min((timeSinceLastAward / 3600000) * 100, 100);
+                document.getElementById('coinProgress').style.width = progress + '%';
+                
+                const timeRemaining = Math.max(3600000 - timeSinceLastAward, 0);
+                const remainingMinutes = Math.floor(timeRemaining / 60000);
+                const remainingSeconds = Math.floor((timeRemaining % 60000) / 1000);
+                document.getElementById('timeToCoins').textContent = 
+                    `${String(remainingMinutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+                
+                if (timeSinceLastAward >= 3600000) {
+                    addCoins(COINS_PER_HOUR);
+                    lastCoinAwardTime = Date.now();
+                    userProfile.totalChatTime += 3600000;
+                    saveProfileToStorage();
+                    saveChatTimer();
+                }
+            }, 1000);
+        }
+
+        function stopChatTimer() {
+            if (chatTimerInterval) {
+                clearInterval(chatTimerInterval);
+                chatTimerInterval = null;
+            }
+        }
+
+        // ============ MODAL FUNCTIONS ============
+        function openUpdatesModal() {
+            document.getElementById('updatesModal').classList.remove('hidden');
+            document.getElementById('updatesModal').classList.add('flex');
+        }
+
+        function closeUpdatesModal() {
+            document.getElementById('updatesModal').classList.add('hidden');
+            document.getElementById('updatesModal').classList.remove('flex');
+        }
+
+        function openProfileModal() {
+            document.getElementById('profileModal').classList.remove('hidden');
+            document.getElementById('profileModal').classList.add('flex');
+            document.getElementById('profileName').focus();
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+            document.getElementById('profileModal').classList.remove('flex');
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settingsName').value = userProfile.name;
+            document.getElementById('settingsEmail').value = userProfile.email || '';
+            document.getElementById('settingsCoins').textContent = userProfile.coins || 0;
+            selectedSettingsAvatar = userProfile.avatar;
+            ttsEnabled = userProfile.ttsEnabled || false;
+            updateTTSUI();
+            
+            document.querySelectorAll('.settings-avatar-btn').forEach(btn => {
+                if (btn.dataset.avatar === userProfile.avatar) {
+                    btn.classList.add('border-purple-500', 'bg-purple-500/20');
+                } else {
+                    btn.classList.remove('border-purple-500', 'bg-purple-500/20');
+                }
+            });
+            
+            document.getElementById('currentPlan').textContent = userProfile.isPro ? 'Pro' : 'Бесплатный';
+            const planStatus = document.getElementById('planStatus');
+            if (userProfile.isPro) {
+                planStatus.textContent = 'Pro';
+                planStatus.classList.remove('bg-gray-700', 'text-gray-400');
+                planStatus.classList.add('bg-purple-500/20', 'text-purple-400');
+            } else {
+                planStatus.textContent = 'Free';
+                planStatus.classList.add('bg-gray-700', 'text-gray-400');
+                planStatus.classList.remove('bg-purple-500/20', 'text-purple-400');
+            }
+            
+            updateUpgradeButton();
+            document.getElementById('settingsModal').classList.remove('hidden');
+            document.getElementById('settingsModal').classList.add('flex');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+            document.getElementById('settingsModal').classList.remove('flex');
+        }
+
+        // ============ CHAT HISTORY ============
+        function loadChatHistory() {
+            try {
+                const saved = localStorage.getItem('stelaChatHistory');
+                if (saved) {
+                    chatHistoryList = JSON.parse(saved);
+                    const historyContainer = document.getElementById('chatHistory');
+                    historyContainer.innerHTML = '';
+                    chatHistoryList.forEach((chat, index) => {
+                        const chatItem = document.createElement('div');
+                        chatItem.className = 'flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-800 cursor-pointer transition-all chat-item';
+                        chatItem.style.animationDelay = `${index * 0.05}s`;
+                        chatItem.onclick = () => loadChat(chat.id);
+                        chatItem.innerHTML = `
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                            </svg>
+                            <span class="text-gray-400 text-sm truncate flex-1 group-hover:text-white">${chat.title}</span>
+                        `;
+                        historyContainer.appendChild(chatItem);
+                    });
+                }
+            } catch (e) {
+                console.error('Failed to load chat history:', e);
+                showError('error Stela AI: Не удалось загрузить историю чатов', 'warning');
+            }
+        }
+
+        function saveChatHistory() {
+            try {
+                localStorage.setItem('stelaChatHistory', JSON.stringify(chatHistoryList));
+            } catch (e) {
+                console.error('Failed to save chat history:', e);
+                showError('error Stela AI: Не удалось сохранить историю', 'error');
+            }
+        }
+
+        function loadChat(chatId) {
+            const chat = chatHistoryList.find(c => c.id === chatId);
+            if (chat) {
+                currentChatId = chat.id;
+                conversationHistory = chat.messages || [];
+                messages = [];
+                
+                document.getElementById('welcomeScreen').classList.add('hidden');
+                document.getElementById('messagesContainer').classList.remove('hidden');
+                document.getElementById('messagesContainer').innerHTML = '';
+                
+                conversationHistory.forEach(msg => {
+                    if (msg.role === 'user') {
+                        addMessage(msg.content, 'user');
+                    } else if (msg.role === 'assistant') {
+                        const container = document.getElementById('messagesContainer');
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'flex gap-4 message-appear';
+                        messageDiv.innerHTML = `
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center flex-shrink-0 glow">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <div class="max-w-2xl flex-1">
+                                <div class="bg-gray-800 rounded-2xl rounded-tl-sm px-4 py-3">
+                                    <div class="message-content text-gray-200 whitespace-pre-wrap">${formatMessage(msg.content)}</div>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(messageDiv);
+                    }
+                });
+                
+                scrollToBottom();
+                if (!chatTimerInterval) startChatTimer();
+            }
+        }
+
+        function saveCurrentChat() {
+            if (currentChatId && conversationHistory.length > 0) {
+                const existingIndex = chatHistoryList.findIndex(c => c.id === currentChatId);
+                const chatData = {
+                    id: currentChatId,
+                    title: conversationHistory[0]?.content?.substring(0, 25) + (conversationHistory[0]?.content?.length > 25 ? '...' : '') || 'Новый чат',
+                    messages: conversationHistory,
+                    updatedAt: new Date().toISOString()
+                };
+                
+                if (existingIndex >= 0) {
+                    chatHistoryList[existingIndex] = chatData;
+                } else {
+                    chatHistoryList.unshift(chatData);
+                }
+                saveChatHistory();
+            }
+        }
+
+        function addToChatHistory(firstMessage) {
+            const historyContainer = document.getElementById('chatHistory');
+            const chatItem = document.createElement('div');
+            chatItem.className = 'flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-800 cursor-pointer transition-all chat-item slide-in-left';
+            chatItem.onclick = () => loadChat(currentChatId);
+            chatItem.innerHTML = `
+                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                </svg>
+                <span class="text-gray-400 text-sm truncate flex-1 group-hover:text-white">${firstMessage.substring(0, 25)}${firstMessage.length > 25 ? '...' : ''}</span>
+            `;
+            historyContainer.insertBefore(chatItem, historyContainer.firstChild);
+            
+            chatHistoryList.unshift({
+                id: currentChatId,
+                title: firstMessage.substring(0, 25) + (firstMessage.length > 25 ? '...' : ''),
+                messages: [],
+                updatedAt: new Date().toISOString()
+            });
+            saveChatHistory();
+        }
+
+        function newChat() {
+            currentChatId = null;
+            messages = [];
+            conversationHistory = [];
+            document.getElementById('messagesContainer').innerHTML = '';
+            document.getElementById('messagesContainer').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+            document.getElementById('messageInput').value = '';
+        }
+
+        // ============ PROFILE ============
+        function loadProfile() {
+            try {
+                const saved = localStorage.getItem('stelaUserProfile');
+                if (saved) {
+                    userProfile = JSON.parse(saved);
+                    if (userProfile.coins === undefined) userProfile.coins = 0;
+                    if (userProfile.totalChatTime === undefined) userProfile.totalChatTime = 0;
+                    if (userProfile.ttsEnabled === undefined) userProfile.ttsEnabled = false;
+                    ttsEnabled = userProfile.ttsEnabled;
+                }
+            } catch (e) {
+                console.error('Failed to load profile:', e);
+                showError('error Stela AI: Не удалось загрузить профиль', 'warning');
+            }
+        }
+
+        function saveProfileToStorage() {
+            try {
+                localStorage.setItem('stelaUserProfile', JSON.stringify(userProfile));
+            } catch (e) {
+                console.error('Failed to save profile:', e);
+                showError('error Stela AI: Не удалось сохранить профиль', 'error');
+            }
+        }
+
+        function handleUserClick() {
+            if (userProfile.name) {
+                openSettingsModal();
+            } else {
+                openAuthModal();
+            }
+        }
+
+        // ============ AUTH SYSTEM ============
+        let registeredUsers = [];
+        let selectedRegisterAvatar = '🧑';
+
+        function loadUsers() {
+            try {
+                const saved = localStorage.getItem('stelaUsers');
+                if (saved) {
+                    registeredUsers = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.error('Failed to load users:', e);
+            }
+        }
+
+        function saveUsers() {
+            try {
+                localStorage.setItem('stelaUsers', JSON.stringify(registeredUsers));
+            } catch (e) {
+                console.error('Failed to save users:', e);
+            }
+        }
+
+        function openAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('authModal').classList.add('flex');
+            showLoginForm();
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('authModal').classList.remove('flex');
+            clearAuthForms();
+        }
+
+        function clearAuthForms() {
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('registerName').value = '';
+            document.getElementById('registerEmail').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('registerPasswordConfirm').value = '';
+            document.getElementById('agreeTerms').checked = false;
+            document.getElementById('loginError').classList.add('hidden');
+            document.getElementById('registerError').classList.add('hidden');
+            resetPasswordStrength();
+        }
+
+        function showLoginForm() {
+            document.getElementById('authTitle').textContent = 'Вход в аккаунт';
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+        }
+
+        function showRegisterForm() {
+            document.getElementById('authTitle').textContent = 'Регистрация';
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerHTML = `<svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                </svg>`;
+            } else {
+                input.type = 'password';
+                btn.innerHTML = `<svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>`;
+            }
+        }
+
+        function selectRegisterAvatar(emoji) {
+            selectedRegisterAvatar = emoji;
+            document.querySelectorAll('.register-avatar-btn').forEach(btn => {
+                if (btn.dataset.avatar === emoji) {
+                    btn.classList.add('border-purple-500', 'bg-purple-500/20');
+                } else {
+                    btn.classList.remove('border-purple-500', 'bg-purple-500/20');
+                }
+            });
+        }
+
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            return Math.min(strength, 4);
+        }
+
+        function updatePasswordStrength() {
+            const password = document.getElementById('registerPassword').value;
+            const strength = checkPasswordStrength(password);
+            
+            const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500'];
+            const texts = ['Слабый', 'Средний', 'Хороший', 'Отличный'];
+            
+            for (let i = 1; i <= 4; i++) {
+                const bar = document.getElementById(`passStrength${i}`);
+                bar.classList.remove('bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500');
+                if (i <= strength) {
+                    bar.classList.add(colors[strength - 1]);
+                } else {
+                    bar.classList.add('bg-gray-600');
+                }
+            }
+            
+            const textEl = document.getElementById('passStrengthText');
+            if (password.length > 0) {
+                textEl.textContent = texts[strength - 1] || 'Очень слабый';
+                textEl.className = `text-xs mt-1 ${strength >= 3 ? 'text-green-400' : strength >= 2 ? 'text-yellow-400' : 'text-red-400'}`;
+            } else {
+                textEl.textContent = '';
+            }
+        }
+
+        function resetPasswordStrength() {
+            for (let i = 1; i <= 4; i++) {
+                const bar = document.getElementById(`passStrength${i}`);
+                bar.classList.remove('bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500');
+                bar.classList.add('bg-gray-600');
+            }
+            document.getElementById('passStrengthText').textContent = '';
+        }
+
+        // Add password strength listener
+        document.addEventListener('DOMContentLoaded', () => {
+            const passInput = document.getElementById('registerPassword');
+            if (passInput) {
+                passInput.addEventListener('input', updatePasswordStrength);
+            }
+        });
+
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+            
+            if (!email || !password) {
+                errorEl.textContent = 'Заполните все поля';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            loadUsers();
+            const user = registeredUsers.find(u => u.email === email && u.password === password);
+            
+            if (!user) {
+                errorEl.textContent = 'Неверный email или пароль';
+                errorEl.classList.remove('hidden');
+                document.getElementById('loginEmail').classList.add('error-shake');
+                setTimeout(() => document.getElementById('loginEmail').classList.remove('error-shake'), 600);
+                return;
+            }
+            
+            // Login successful
+            userProfile = {
+                name: user.name,
+                email: user.email,
+                avatar: user.avatar,
+                isPro: user.isPro || false,
+                coins: user.coins || 0,
+                totalChatTime: user.totalChatTime || 0,
+                ttsEnabled: user.ttsEnabled || false,
+                createdAt: user.createdAt
+            };
+            
+            saveProfileToStorage();
+            updateUI();
+            updateCoinsDisplay();
+            closeAuthModal();
+            showError('Добро пожаловать, ' + user.name + '!', 'success');
+        }
+
+        function register() {
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            const errorEl = document.getElementById('registerError');
+            
+            // Validation
+            if (!name || !email || !password || !passwordConfirm) {
+                errorEl.textContent = 'Заполните все обязательные поля';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                errorEl.textContent = 'Введите корректный email';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            if (password.length < 6) {
+                errorEl.textContent = 'Пароль должен быть минимум 6 символов';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                errorEl.textContent = 'Пароли не совпадают';
+                errorEl.classList.remove('hidden');
+                document.getElementById('registerPasswordConfirm').classList.add('error-shake');
+                setTimeout(() => document.getElementById('registerPasswordConfirm').classList.remove('error-shake'), 600);
+                return;
+            }
+            
+            if (!agreeTerms) {
+                errorEl.textContent = 'Необходимо согласиться с условиями';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            loadUsers();
+            
+            // Check if email exists
+            if (registeredUsers.find(u => u.email === email)) {
+                errorEl.textContent = 'Пользователь с таким email уже существует';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                name: name,
+                email: email,
+                password: password,
+                avatar: selectedRegisterAvatar,
+                isPro: false,
+                coins: 10, // Welcome bonus
+                totalChatTime: 0,
+                ttsEnabled: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            registeredUsers.push(newUser);
+            saveUsers();
+            
+            // Auto login
+            userProfile = {
+                name: newUser.name,
+                email: newUser.email,
+                avatar: newUser.avatar,
+                isPro: false,
+                coins: 10,
+                totalChatTime: 0,
+                ttsEnabled: false,
+                createdAt: newUser.createdAt
+            };
+            
+            saveProfileToStorage();
+            updateUI();
+            updateCoinsDisplay();
+            closeAuthModal();
+            
+            showWelcomeBonus();
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function showWelcomeBonus() {
+            const notification = document.createElement('div');
+            notification.className = 'fixed inset-0 z-50 flex items-center justify-center modal-backdrop';
+            notification.innerHTML = `
+                <div class="bg-gray-800 rounded-2xl p-8 w-full max-w-sm mx-4 modal-appear border border-gray-700 text-center">
+                    <div class="w-24 h-24 mx-auto bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-4 welcome-icon">
+                        <span class="text-5xl">🎁</span>
+                    </div>
+                    <h2 class="text-2xl font-bold gradient-text mb-2">Добро пожаловать!</h2>
+                    <p class="text-gray-400 mb-4">Вы получили приветственный бонус</p>
+                    <div class="flex items-center justify-center gap-2 text-3xl font-bold text-yellow-400 mb-6">
+                        <span>+10</span>
+                        <span>🪙</span>
+                    </div>
+                    <button onclick="this.closest('.fixed').remove()" class="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover">
+                        Начать общение
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(notification);
+        }
+
+        // ============ BUY PRO SYSTEM ============
+        function openBuyProModal() {
+            const balance = userProfile.coins || 0;
+            const progress = Math.min((balance / PRO_PRICE) * 100, 100);
+            
+            document.getElementById('buyProBalance').textContent = balance;
+            document.getElementById('buyProProgress').textContent = Math.floor(progress) + '%';
+            document.getElementById('buyProProgressBar').style.width = progress + '%';
+            
+            const btn = document.getElementById('confirmBuyProBtn');
+            if (balance >= PRO_PRICE) {
+                btn.disabled = false;
+                btn.textContent = 'Купить Pro';
+            } else {
+                btn.disabled = true;
+                btn.textContent = `Нужно ещё ${PRO_PRICE - balance} 🪙`;
+            }
+            
+            document.getElementById('buyProError').classList.add('hidden');
+            document.getElementById('buyProModal').classList.remove('hidden');
+            document.getElementById('buyProModal').classList.add('flex');
+        }
+
+        function closeBuyProModal() {
+            document.getElementById('buyProModal').classList.add('hidden');
+            document.getElementById('buyProModal').classList.remove('flex');
+        }
+
+        function confirmBuyPro() {
+            if (userProfile.coins < PRO_PRICE) {
+                document.getElementById('buyProError').textContent = `Недостаточно коинов! Нужно ещё ${PRO_PRICE - userProfile.coins} 🪙`;
+                document.getElementById('buyProError').classList.remove('hidden');
+                document.getElementById('confirmBuyProBtn').classList.add('shake');
+                setTimeout(() => document.getElementById('confirmBuyProBtn').classList.remove('shake'), 500);
+                return;
+            }
+            
+            // Deduct coins
+            userProfile.coins -= PRO_PRICE;
+            userProfile.isPro = true;
+            
+            // Update user in registered users
+            loadUsers();
+            const userIndex = registeredUsers.findIndex(u => u.email === userProfile.email);
+            if (userIndex >= 0) {
+                registeredUsers[userIndex].coins = userProfile.coins;
+                registeredUsers[userIndex].isPro = true;
+                saveUsers();
+            }
+            
+            saveProfileToStorage();
+            updateUI();
+            updateCoinsDisplay();
+            closeBuyProModal();
+            closeSettingsModal();
+            
+            showProActivatedNotification();
+        }
+
+        function selectAvatar(emoji) {
+            selectedAvatar = emoji;
+            document.querySelectorAll('.avatar-btn').forEach(btn => {
+                if (btn.dataset.avatar === emoji) {
+                    btn.classList.add('border-purple-500', 'bg-purple-500/20');
+                } else {
+                    btn.classList.remove('border-purple-500', 'bg-purple-500/20');
+                }
+            });
+        }
+
+        function selectSettingsAvatar(emoji) {
+            selectedSettingsAvatar = emoji;
+            document.querySelectorAll('.settings-avatar-btn').forEach(btn => {
+                if (btn.dataset.avatar === emoji) {
+                    btn.classList.add('border-purple-500', 'bg-purple-500/20');
+                } else {
+                    btn.classList.remove('border-purple-500', 'bg-purple-500/20');
+                }
+            });
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('profileName').value.trim();
+            const email = document.getElementById('profileEmail').value.trim();
+            
+            if (!name) {
+                document.getElementById('profileName').classList.add('shake');
+                setTimeout(() => document.getElementById('profileName').classList.remove('shake'), 500);
+                showError('Пожалуйста, введите имя', 'warning');
+                return;
+            }
+            
+            userProfile = {
+                name: name,
+                email: email,
+                avatar: selectedAvatar,
+                isPro: false,
+                coins: userProfile.coins || 0,
+                totalChatTime: 0,
+                ttsEnabled: ttsEnabled,
+                createdAt: new Date().toISOString()
+            };
+            
+            saveProfileToStorage();
+            updateUI();
+            updateCoinsDisplay();
+            closeProfileModal();
+            showError('Профиль создан!', 'success');
+        }
+
+        function updateProfile() {
+            const name = document.getElementById('settingsName').value.trim();
+            const email = document.getElementById('settingsEmail').value.trim();
+            
+            if (!name) {
+                document.getElementById('settingsName').classList.add('shake');
+                setTimeout(() => document.getElementById('settingsName').classList.remove('shake'), 500);
+                showError('Пожалуйста, введите имя', 'warning');
+                return;
+            }
+            
+            userProfile.name = name;
+            userProfile.email = email;
+            userProfile.avatar = selectedSettingsAvatar;
+            userProfile.ttsEnabled = ttsEnabled;
+            
+            saveProfileToStorage();
+            updateUI();
+            closeSettingsModal();
+            showError('Профиль обновлён!', 'success');
+        }
+
+        function logout() {
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                // Save current user data before logout
+                if (userProfile.email) {
+                    loadUsers();
+                    const userIndex = registeredUsers.findIndex(u => u.email === userProfile.email);
+                    if (userIndex >= 0) {
+                        registeredUsers[userIndex].coins = userProfile.coins;
+                        registeredUsers[userIndex].isPro = userProfile.isPro;
+                        registeredUsers[userIndex].totalChatTime = userProfile.totalChatTime;
+                        registeredUsers[userIndex].ttsEnabled = userProfile.ttsEnabled;
+                        saveUsers();
+                    }
+                }
+                
+                userProfile = { name: '', email: '', avatar: '🧑', isPro: false, coins: 0, totalChatTime: 0, ttsEnabled: false, createdAt: null };
+                localStorage.removeItem('stelaUserProfile');
+                stopChatTimer();
+                accumulatedChatTime = 0;
+                lastCoinAwardTime = null;
+                localStorage.removeItem('stelaChatTimer');
+                updateUI();
+                updateCoinsDisplay();
+                closeSettingsModal();
+                newChat();
+                showError('Вы вышли из аккаунта', 'success');
+            }
+        }
+
+        function updateUI() {
+            const avatar = document.getElementById('userAvatar');
+            const name = document.getElementById('userName');
+            const planBadge = document.getElementById('userPlanBadge');
+            const headerBadge = document.getElementById('headerPlanBadge');
+            
+            if (userProfile.name) {
+                avatar.textContent = userProfile.avatar;
+                avatar.classList.remove('bg-gradient-to-br', 'from-purple-500', 'to-blue-500');
+                avatar.classList.add('bg-gray-700');
+                name.textContent = userProfile.name;
+            } else {
+                avatar.textContent = '?';
+                avatar.classList.add('bg-gradient-to-br', 'from-purple-500', 'to-blue-500');
+                avatar.classList.remove('bg-gray-700');
+                name.textContent = 'Гость';
+            }
+            
+            if (userProfile.isPro) {
+                planBadge.textContent = 'Pro план';
+                planBadge.classList.remove('text-gray-500');
+                planBadge.classList.add('text-purple-400');
+                headerBadge.textContent = 'Pro';
+                headerBadge.classList.remove('bg-gray-700', 'text-gray-400');
+                headerBadge.classList.add('bg-purple-500/20', 'text-purple-400');
+            } else {
+                planBadge.textContent = 'Бесплатный план';
+                planBadge.classList.add('text-gray-500');
+                planBadge.classList.remove('text-purple-400');
+                headerBadge.textContent = 'Free';
+                headerBadge.classList.add('bg-gray-700', 'text-gray-400');
+                headerBadge.classList.remove('bg-purple-500/20', 'text-purple-400');
+            }
+        }
+
+        // ============ COINS ============
+        function updateCoinsDisplay() {
+            const coins = userProfile.coins || 0;
+            document.getElementById('headerCoins').textContent = coins;
+            document.getElementById('sidebarCoins').textContent = coins;
+            const settingsCoins = document.getElementById('settingsCoins');
+            if (settingsCoins) settingsCoins.textContent = coins;
+            updateUpgradeButton();
+        }
+
+        function updateUpgradeButton() {
+            const upgradeSection = document.getElementById('upgradeSection');
+            if (!upgradeSection) return;
+            
+            if (userProfile.isPro) {
+                upgradeSection.innerHTML = `
+                    <div class="flex items-center gap-3 text-green-400 scale-in">
+                        <span class="text-2xl rotate-in">✅</span>
+                        <div>
+                            <p class="font-bold">Pro версия активна!</p>
+                            <p class="text-xs text-gray-400">Все функции разблокированы</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function addCoins(amount) {
+            userProfile.coins = (userProfile.coins || 0) + amount;
+            saveProfileToStorage();
+            updateCoinsDisplay();
+            
+            document.getElementById('headerCoins').classList.add('coin-bounce');
+            document.getElementById('sidebarCoins').classList.add('coin-bounce');
+            setTimeout(() => {
+                document.getElementById('headerCoins').classList.remove('coin-bounce');
+                document.getElementById('sidebarCoins').classList.remove('coin-bounce');
+            }, 600);
+            
+            showCoinNotification(amount);
+        }
+
+        function showCoinNotification(amount) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2 notification-slide';
+            notification.innerHTML = `<span class="text-xl">🪙</span><span class="font-bold">+${amount} коинов!</span>`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transition = 'all 0.5s';
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(-50%) translateY(-20px)';
+                setTimeout(() => notification.remove(), 500);
+            }, 2000);
+        }
+
+        function upgradeToPro() {
+            if (userProfile.isPro) return;
+            
+            const upgradeError = document.getElementById('upgradeError');
+            
+            if (userProfile.coins < PRO_PRICE) {
+                const needed = PRO_PRICE - userProfile.coins;
+                upgradeError.textContent = `Недостаточно коинов! Нужно ещё ${needed} 🪙`;
+                upgradeError.classList.remove('hidden');
+                
+                document.getElementById('upgradeBtn').classList.add('shake');
+                setTimeout(() => document.getElementById('upgradeBtn').classList.remove('shake'), 500);
+                return;
+            }
+            
+            userProfile.coins -= PRO_PRICE;
+            userProfile.isPro = true;
+            saveProfileToStorage();
+            updateUI();
+            updateCoinsDisplay();
+            updateUpgradeButton();
+            
+            showProActivatedNotification();
+            setTimeout(() => closeSettingsModal(), 1000);
+        }
+
+        function showProActivatedNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-4 rounded-xl shadow-lg z-50 slide-in-right';
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl rotate-in">🎉</span>
+                    <div>
+                        <p class="font-bold">Pro версия активирована!</p>
+                        <p class="text-sm opacity-90">Теперь вам доступно написание кода</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transition = 'opacity 0.5s';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
+        }
+
+        // ============ API ============
+        async function callAPI(userMessage) {
+            conversationHistory.push({ role: 'user', content: userMessage });
+            
+            const messagesForAPI = [
+                { role: 'system', content: getSystemPrompt() },
+                ...conversationHistory.slice(-20)
+            ];
+            
+            abortController = new AbortController();
+            
+            try {
+                const response = await fetch(API_URL, {
+                    signal: abortController.signal,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: 'mistral-small-latest',
+                        messages: messagesForAPI,
+                        temperature: 0.7,
+                        max_tokens: 2048,
+                        stream: true
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Код ошибки: ${response.status}`);
+                }
+                
+                return response;
+            } catch (error) {
+                conversationHistory.pop();
+                throw error;
+            }
+        }
+
+        async function streamResponse(response, messageElement) {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let fullContent = '';
+            
+            try {
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            if (data === '[DONE]') continue;
+                            
+                            try {
+                                const parsed = JSON.parse(data);
+                                const content = parsed.choices?.[0]?.delta?.content || '';
+                                if (content) {
+                                    fullContent += content;
+                                    updateMessageContent(messageElement, fullContent);
+                                }
+                            } catch (e) {}
+                        }
+                    }
+                }
+                
+                conversationHistory.push({ role: 'assistant', content: fullContent });
+                
+                // Speak the response if TTS is enabled (but not in call mode - handled separately)
+                if (ttsEnabled && !isInCall && fullContent) {
+                    speak(fullContent);
+                }
+                
+                return fullContent;
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    updateMessageContent(messageElement, fullContent + '\n\n⚠️ *Генерация остановлена*');
+                    return fullContent;
+                }
+                throw error;
+            }
+        }
+
+        function stopGeneration() {
+            if (abortController) {
+                abortController.abort();
+                abortController = null;
+            }
+            isGenerating = false;
+            showGeneratingUI(false);
+            stopSpeaking();
+        }
+
+        function showGeneratingUI(show) {
+            const sendBtn = document.getElementById('sendBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            if (show) {
+                sendBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+            } else {
+                sendBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+            }
+        }
+
+        // ============ MESSAGES ============
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (!text || isGenerating) return;
+            
+            if (!chatTimerInterval) startChatTimer();
+            
+            isGenerating = true;
+            showGeneratingUI(true);
+            document.getElementById('sendBtn').disabled = true;
+            
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('messagesContainer').classList.remove('hidden');
+            
+            addMessage(text, 'user');
+            input.value = '';
+            input.style.height = 'auto';
+            
+            if (!currentChatId) {
+                currentChatId = Date.now();
+                addToChatHistory(text);
+            }
+            
+            const aiMessageElement = createAIMessagePlaceholder();
+            
+            try {
+                const response = await callAPI(text);
+                await streamResponse(response, aiMessageElement);
+                saveCurrentChat();
+            } catch (error) {
+                console.error('API Error:', error);
+                if (error.name !== 'AbortError') {
+                    const errorMsg = `error Stela AI: ${error.message}`;
+                    updateMessageContent(aiMessageElement, `❌ **error Stela AI**\n\nКритическая ошибка: ${error.message}\n\nПожалуйста, попробуйте обновить страницу.\n\nЕсли ошибка повторяется, обратитесь в поддержку lmstudio ai.`);
+                    showError(errorMsg, 'error');
+                }
+            } finally {
+                isGenerating = false;
+                showGeneratingUI(false);
+                document.getElementById('sendBtn').disabled = false;
+                const loader = aiMessageElement.querySelector('.typing-loader');
+                if (loader) loader.remove();
+            }
+        }
+
+
+
+        function addMessage(text, sender) {
+            const container = document.getElementById('messagesContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex gap-4 message-appear ${sender === 'user' ? 'justify-end' : ''}`;
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="max-w-2xl">
+                        <div class="bg-gradient-to-r from-purple-600 to-purple-500 rounded-2xl rounded-tr-sm px-4 py-3 shadow-lg">
+                            <p class="text-white whitespace-pre-wrap">${escapeHtml(text)}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.appendChild(messageDiv);
+            scrollToBottom();
+            messages.push({ text, sender });
+        }
+
+        function createAIMessagePlaceholder() {
+            const container = document.getElementById('messagesContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex gap-4 message-appear';
+            messageDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center flex-shrink-0 glow">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <div class="max-w-2xl flex-1">
+                    <div class="bg-gray-800 rounded-2xl rounded-tl-sm px-4 py-3">
+                        <div class="typing-loader flex gap-1 py-1">
+                            <div class="w-2 h-2 bg-purple-400 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-purple-400 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-purple-400 rounded-full typing-dot"></div>
+                        </div>
+                        <div class="message-content text-gray-200 whitespace-pre-wrap hidden"></div>
+                    </div>
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="copyMessage(this)" class="p-1.5 hover:bg-gray-800 rounded-lg transition-all text-gray-500 hover:text-gray-300 btn-hover" title="Копировать">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </button>
+                        <button onclick="speakMessage(this)" class="p-1.5 hover:bg-gray-800 rounded-lg transition-all text-gray-500 hover:text-gray-300 btn-hover" title="Озвучить">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                            </svg>
+                        </button>
+                        <button onclick="regenerateMessage()" class="p-1.5 hover:bg-gray-800 rounded-lg transition-all text-gray-500 hover:text-gray-300 btn-hover" title="Повторить">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(messageDiv);
+            scrollToBottom();
+            
+            const contentDiv = messageDiv.querySelector('.message-content');
+            const observer = new MutationObserver(() => {
+                const loader = messageDiv.querySelector('.typing-loader');
+                if (loader && contentDiv.innerHTML) {
+                    loader.classList.add('hidden');
+                    contentDiv.classList.remove('hidden');
+                }
+            });
+            observer.observe(contentDiv, { childList: true, characterData: true, subtree: true });
+            
+            return messageDiv;
+        }
+
+        function updateMessageContent(messageElement, content) {
+            const contentDiv = messageElement.querySelector('.message-content');
+            if (contentDiv) {
+                contentDiv.innerHTML = formatMessage(content);
+                scrollToBottom();
+            }
+        }
+
+        function copyMessage(button) {
+            const messageContent = button.closest('.max-w-2xl').querySelector('.message-content');
+            const text = messageContent.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`;
+                button.classList.add('scale-in');
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('scale-in');
+                }, 2000);
+            }).catch(() => {
+                showError('error Stela AI: Не удалось скопировать', 'error');
+            });
+        }
+
+        function speakMessage(button) {
+            const messageContent = button.closest('.max-w-2xl').querySelector('.message-content');
+            const text = messageContent.innerText;
+            
+            if (isSpeaking) {
+                stopSpeaking();
+                return;
+            }
+            
+            ttsEnabled = true;
+            speak(text);
+        }
+
+        async function regenerateMessage() {
+            if (isGenerating || conversationHistory.length < 2) return;
+            
+            conversationHistory.pop();
+            const lastUserMessage = conversationHistory.pop();
+            
+            const container = document.getElementById('messagesContainer');
+            const msgs = container.querySelectorAll('.flex.gap-4');
+            if (msgs.length >= 2) {
+                msgs[msgs.length - 1].remove();
+                msgs[msgs.length - 2].remove();
+            }
+            
+            document.getElementById('messageInput').value = lastUserMessage.content;
+            await sendMessage();
+        }
+
+        // ============ FORMATTING ============
+        function formatMessage(text) {
+            let formatted = escapeHtml(text);
+            
+            formatted = formatted.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+                const language = lang || 'code';
+                return `<div class="relative my-3 code-appear">
+                    <div class="flex items-center justify-between bg-gray-700 rounded-t-lg px-4 py-2 text-xs text-gray-300">
+                        <span>${language}</span>
+                        <button onclick="copyCode(this)" class="hover:text-white transition-colors btn-hover">Копировать</button>
+                    </div>
+                    <pre class="bg-gray-900 rounded-b-lg p-4 overflow-x-auto text-sm"><code>${code.trim()}</code></pre>
+                </div>`;
+            });
+            
+            formatted = formatted.replace(/`([^`]+)`/g, '<code class="bg-gray-700 px-1.5 py-0.5 rounded text-purple-300 text-sm">$1</code>');
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
+            formatted = formatted.replace(/\*(.*?)\*/g, '<em class="text-gray-300">$1</em>');
+            formatted = formatted.replace(/^• /gm, '<span class="text-purple-400">•</span> ');
+            formatted = formatted.replace(/^- /gm, '<span class="text-purple-400">•</span> ');
+            formatted = formatted.replace(/^(\d+)\. /gm, '<span class="text-purple-400 font-medium">$1.</span> ');
+            formatted = formatted.replace(/^### (.*$)/gm, '<h3 class="text-lg font-bold text-white mt-3 mb-1">$1</h3>');
+            formatted = formatted.replace(/^## (.*$)/gm, '<h2 class="text-xl font-bold text-white mt-4 mb-2">$1</h2>');
+            formatted = formatted.replace(/^# (.*$)/gm, '<h1 class="text-2xl font-bold text-white mt-4 mb-2">$1</h1>');
+            
+            return formatted;
+        }
+
+        function copyCode(button) {
+            const codeBlock = button.closest('.relative').querySelector('code');
+            navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Скопировано!';
+                button.classList.add('text-green-400');
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.classList.remove('text-green-400');
+                }, 2000);
+            }).catch(() => {
+                showError('error Stela AI: Не удалось скопировать код', 'error');
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============ UI HELPERS ============
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 160) + 'px';
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function scrollToBottom() {
+            const chatArea = document.getElementById('chatArea');
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+    </script>
+</body>
+</html>
