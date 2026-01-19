@@ -1,1 +1,1 @@
-# Stela-AI.ru
+# Stela-AI.io
