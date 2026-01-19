@@ -1,1 +1,1 @@
-# Stela-AI.io
+# Stela-AI
