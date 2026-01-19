@@ -2,7 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#111827">
+    <meta name="format-detection" content="telephone=no">
     <title>Stela AI</title>
     
     <!-- Favicon -->
@@ -15,6 +20,39 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        /* Reset & Base for Google Sites */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            height: 100dvh;
+            height: calc(var(--vh, 1vh) * 100);
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        :root {
+            --vh: 1vh;
+        }
+
+        /* For iframe embedding in Google Sites */
+        body {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
 
         * {
             font-family: 'Inter', sans-serif;
@@ -571,9 +609,677 @@
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
+
+        /* ============================================================
+           АДАПТАЦИЯ ДЛЯ ПК (Desktop) - ширина >= 1024px
+           ============================================================ */
+        
+        @media (min-width: 1024px) {
+            /* Сайдбар всегда видим на ПК */
+            #sidebar {
+                position: relative;
+                transform: none;
+                width: 18rem;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* Скрыть кнопку меню на ПК */
+            #menuBtn {
+                display: none;
+            }
+            
+            /* Оверлей не нужен на ПК */
+            .sidebar-overlay {
+                display: none !important;
+            }
+            
+            /* Основной контент */
+            main {
+                flex: 1;
+                width: calc(100% - 18rem);
+            }
+            
+            /* Большие элементы управления */
+            #messageInput {
+                font-size: 1rem;
+                padding: 1rem 1.25rem;
+            }
+            
+            /* Полноразмерные кнопки */
+            #sendBtn, #stopBtn, #voiceInputBtn, #ttsBtn {
+                padding: 0.875rem;
+            }
+            
+            /* Большие модальные окна */
+            .modal-appear {
+                max-width: 32rem;
+                padding: 2rem;
+            }
+            
+            /* Широкие сообщения */
+            .message-appear .max-w-2xl {
+                max-width: 42rem;
+            }
+            
+            /* Hover эффекты только на ПК */
+            .btn-hover:hover {
+                transform: translateY(-2px) scale(1.02);
+                box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            }
+            
+            .chat-item:hover {
+                transform: translateX(4px);
+                background: rgba(139, 92, 246, 0.1);
+            }
+            
+            .avatar-hover:hover {
+                transform: scale(1.1) rotate(5deg);
+            }
+            
+            .suggestion-card:hover {
+                transform: translateY(-4px) scale(1.02);
+                box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+            }
+            
+            /* Приветственный экран на ПК */
+            #welcomeScreen h2 {
+                font-size: 2.5rem;
+            }
+            
+            #welcomeScreen p {
+                font-size: 1.125rem;
+            }
+            
+            #welcomeScreen .w-20 {
+                width: 6rem;
+                height: 6rem;
+            }
+            
+            /* Кнопка звонка с текстом */
+            header .text-green-400.text-sm {
+                display: inline;
+            }
+        }
+        
+        /* ============================================================
+           АДАПТАЦИЯ ДЛЯ ПЛАНШЕТОВ (Tablet) - ширина 768px - 1023px
+           ============================================================ */
+        
+        @media (min-width: 768px) and (max-width: 1023px) {
+            /* Сайдбар выезжает */
+            #sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 20rem !important;
+                max-width: 70vw;
+                z-index: 40;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            #sidebar.sidebar-open {
+                transform: translateX(0);
+                box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5);
+            }
+            
+            .sidebar-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 35;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+            
+            .sidebar-overlay.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            
+            main {
+                width: 100%;
+            }
+            
+            /* Средние модальные окна */
+            .modal-appear {
+                max-width: 28rem;
+                padding: 1.5rem;
+            }
+            
+            /* Средние сообщения */
+            .message-appear .max-w-2xl {
+                max-width: 80%;
+            }
+            
+            /* Приветственный экран */
+            #welcomeScreen h2 {
+                font-size: 2rem;
+            }
+            
+            #welcomeScreen .w-20 {
+                width: 5rem;
+                height: 5rem;
+            }
+            
+            /* Показать текст на кнопке звонка */
+            header .text-green-400.text-sm {
+                display: inline;
+            }
+        }
+        
+        /* ============================================================
+           АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ (Mobile) - ширина < 768px
+           ============================================================ */
+        
+        @media (max-width: 767px) {
+            /* Сайдбар - выезжающее меню */
+            #sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 280px !important;
+                max-width: 85vw;
+                z-index: 40;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                will-change: transform;
+            }
+            
+            #sidebar.sidebar-open {
+                transform: translateX(0);
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.6);
+            }
+            
+            /* Затемнение фона */
+            .sidebar-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 35;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+            }
+            
+            .sidebar-overlay.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            
+            /* Основной контент на всю ширину */
+            main {
+                width: 100% !important;
+            }
+            
+            /* Компактная шапка */
+            header {
+                padding: 0.625rem 0.875rem !important;
+            }
+            
+            header h1 {
+                font-size: 1rem !important;
+            }
+            
+            header .w-8.h-8 {
+                width: 1.75rem !important;
+                height: 1.75rem !important;
+            }
+            
+            /* Скрыть индикатор онлайн */
+            #statusIndicator {
+                display: none !important;
+            }
+            
+            /* Компактные бейджи */
+            #headerPlanBadge {
+                padding: 0.2rem 0.5rem !important;
+                font-size: 0.625rem !important;
+            }
+            
+            #headerCoins {
+                font-size: 0.75rem !important;
+            }
+            
+            /* Кнопка звонка - только иконка */
+            header .text-green-400.text-sm.font-medium {
+                display: none !important;
+            }
+            
+            /* Приветственный экран */
+            #welcomeScreen {
+                padding: 1rem !important;
+            }
+            
+            #welcomeScreen h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            #welcomeScreen p {
+                font-size: 0.875rem !important;
+                padding: 0 0.5rem;
+            }
+            
+            #welcomeScreen .w-20 {
+                width: 4rem !important;
+                height: 4rem !important;
+            }
+            
+            #welcomeScreen .w-20 svg {
+                width: 2rem !important;
+                height: 2rem !important;
+            }
+            
+            /* Область сообщений */
+            #messagesContainer {
+                padding: 0.75rem !important;
+            }
+            
+            .message-appear .max-w-2xl {
+                max-width: 88% !important;
+            }
+            
+            .message-appear .px-4.py-3 {
+                padding: 0.625rem 0.75rem !important;
+                font-size: 0.9rem !important;
+                line-height: 1.5;
+            }
+            
+            /* Маленькие аватарки */
+            .message-appear .w-8.h-8 {
+                width: 1.625rem !important;
+                height: 1.625rem !important;
+                flex-shrink: 0;
+            }
+            
+            .message-appear .w-8.h-8 svg {
+                width: 0.75rem !important;
+                height: 0.75rem !important;
+            }
+            
+            .message-appear .gap-4 {
+                gap: 0.5rem !important;
+            }
+            
+            /* Компактная область ввода */
+            .p-4.border-t {
+                padding: 0.625rem !important;
+            }
+            
+            #messageInput {
+                font-size: 16px !important; /* Предотвращает зум на iOS */
+                padding: 0.625rem 0.875rem !important;
+                min-height: 44px;
+            }
+            
+            #sendBtn, #stopBtn, #voiceInputBtn, #ttsBtn {
+                padding: 0.5rem !important;
+                margin: 0.125rem !important;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            
+            #sendBtn svg, #stopBtn svg, #voiceInputBtn svg, #ttsBtn svg {
+                width: 1.125rem !important;
+                height: 1.125rem !important;
+            }
+            
+            /* Модальные окна */
+            .modal-appear {
+                margin: 0.375rem !important;
+                max-height: 94vh !important;
+                border-radius: 1rem !important;
+                padding: 1rem !important;
+            }
+            
+            .modal-appear h2 {
+                font-size: 1.125rem !important;
+            }
+            
+            .modal-appear input {
+                padding: 0.625rem 0.75rem !important;
+                font-size: 16px !important;
+            }
+            
+            .modal-appear button {
+                padding: 0.625rem 0.875rem !important;
+                font-size: 0.875rem;
+            }
+            
+            /* Компактный выбор аватаров */
+            .modal-appear .flex.gap-3.flex-wrap {
+                gap: 0.375rem !important;
+            }
+            
+            .avatar-btn, .settings-avatar-btn, .register-avatar-btn {
+                width: 2.25rem !important;
+                height: 2.25rem !important;
+                font-size: 1.125rem !important;
+            }
+            
+            /* Модальное окно звонка */
+            .call-modal {
+                padding: 1.25rem !important;
+                margin: 0.75rem !important;
+            }
+            
+            .call-modal #callAvatar {
+                width: 4.5rem !important;
+                height: 4.5rem !important;
+            }
+            
+            .call-modal h3 {
+                font-size: 1.125rem !important;
+            }
+            
+            .call-modal #micBtn {
+                width: 3.25rem !important;
+                height: 3.25rem !important;
+            }
+            
+            .call-modal #micBtn svg {
+                width: 1.375rem !important;
+                height: 1.375rem !important;
+            }
+            
+            .call-modal #speakerBtn,
+            .call-modal button:last-child {
+                width: 2.25rem !important;
+                height: 2.25rem !important;
+            }
+            
+            /* Модальное окно покупки Pro */
+            #buyProModal .modal-appear {
+                padding: 0.875rem !important;
+            }
+            
+            #buyProModal .w-20.h-20 {
+                width: 3.5rem !important;
+                height: 3.5rem !important;
+            }
+            
+            #buyProModal .text-4xl {
+                font-size: 1.75rem !important;
+            }
+            
+            #buyProModal .text-2xl {
+                font-size: 1.125rem !important;
+            }
+            
+            #buyProModal .space-y-3 > div {
+                padding: 0.5rem !important;
+            }
+            
+            /* Боковая панель - коины */
+            #sidebarCoins, #chatTimer {
+                font-size: 0.875rem !important;
+            }
+            
+            /* Уведомления */
+            #errorContainer {
+                right: 0.375rem !important;
+                left: 0.375rem !important;
+                top: 0.375rem !important;
+            }
+            
+            #errorContainer > div {
+                width: 100% !important;
+                font-size: 0.875rem;
+            }
+            
+            /* Блоки кода */
+            pre {
+                font-size: 0.7rem !important;
+                padding: 0.625rem !important;
+            }
+            
+            .code-appear .px-4 {
+                padding-left: 0.625rem !important;
+                padding-right: 0.625rem !important;
+            }
+            
+            /* Отключаем hover-эффекты на тач-устройствах */
+            .btn-hover:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .btn-hover:active {
+                transform: scale(0.95);
+                opacity: 0.9;
+            }
+            
+            .chat-item:hover {
+                transform: none;
+                background: transparent;
+            }
+            
+            .chat-item:active {
+                background: rgba(139, 92, 246, 0.15);
+            }
+            
+            .avatar-hover:hover {
+                transform: none;
+            }
+            
+            /* Увеличенные области касания */
+            button, a, .cursor-pointer {
+                min-height: 40px;
+            }
+        }
+        
+        /* ============================================================
+           МАЛЕНЬКИЕ ТЕЛЕФОНЫ - ширина < 375px (iPhone SE и подобные)
+           ============================================================ */
+        
+        @media (max-width: 374px) {
+            header h1 {
+                font-size: 0.875rem !important;
+            }
+            
+            /* Скрыть бейдж плана */
+            #headerPlanBadge {
+                display: none !important;
+            }
+            
+            .p-4.border-t {
+                padding: 0.375rem !important;
+            }
+            
+            #messageInput {
+                padding: 0.5rem 0.625rem !important;
+            }
+            
+            #sendBtn, #stopBtn, #voiceInputBtn, #ttsBtn {
+                padding: 0.375rem !important;
+            }
+            
+            #welcomeScreen h2 {
+                font-size: 1.25rem !important;
+            }
+            
+            #welcomeScreen .w-20 {
+                width: 3rem !important;
+                height: 3rem !important;
+            }
+            
+            .message-appear .max-w-2xl {
+                max-width: 92% !important;
+            }
+        }
+        
+        /* ============================================================
+           ГОРИЗОНТАЛЬНАЯ ОРИЕНТАЦИЯ ТЕЛЕФОНА (Landscape)
+           ============================================================ */
+        
+        @media (max-height: 500px) and (orientation: landscape) {
+            #welcomeScreen {
+                padding: 0.5rem !important;
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            #welcomeScreen .w-20 {
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+                margin-bottom: 0 !important;
+            }
+            
+            #welcomeScreen h2 {
+                font-size: 1.125rem !important;
+                margin-bottom: 0 !important;
+            }
+            
+            #welcomeScreen p {
+                font-size: 0.75rem !important;
+            }
+            
+            .modal-appear {
+                max-height: 95vh !important;
+                overflow-y: auto;
+            }
+            
+            .call-modal {
+                padding: 0.75rem !important;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            header {
+                padding: 0.375rem 0.75rem !important;
+            }
+            
+            .p-4.border-t {
+                padding: 0.375rem !important;
+            }
+        }
+        
+        /* ============================================================
+           КЛАВИАТУРА ОТКРЫТА (очень маленькая высота)
+           ============================================================ */
+        
+        @media (max-height: 350px) {
+            #welcomeScreen {
+                display: none !important;
+            }
+            
+            header {
+                padding: 0.25rem 0.5rem !important;
+            }
+            
+            header h1 {
+                font-size: 0.75rem !important;
+            }
+            
+            .p-4.border-t {
+                padding: 0.25rem 0.5rem !important;
+            }
+            
+            #messageInput {
+                padding: 0.375rem 0.5rem !important;
+                min-height: 36px;
+            }
+        }
+        
+        /* ============================================================
+           БЕЗОПАСНЫЕ ЗОНЫ (iPhone X и новее с челкой)
+           ============================================================ */
+        
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+            
+            .p-4.border-t {
+                padding-bottom: max(0.625rem, env(safe-area-inset-bottom)) !important;
+            }
+            
+            #sidebar {
+                padding-left: env(safe-area-inset-left);
+            }
+            
+            header {
+                padding-top: max(0.625rem, env(safe-area-inset-top));
+            }
+        }
+        
+        /* ============================================================
+           GOOGLE SITES - специальные исправления для iframe
+           ============================================================ */
+        
+        .app-container {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        /* Гарантируем полную высоту в iframe */
+        body, html {
+            min-height: 100%;
+            height: 100%;
+        }
+        
+        /* Исправление для iOS Safari в iframe */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                height: -webkit-fill-available;
+            }
+        }
+        
+        /* Отключаем выделение текста на кнопках */
+        button, .btn-hover, .chat-item {
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Плавный скролл */
+        #chatArea, #messagesContainer {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        
+        /* Исправление зума на iOS при фокусе на input */
+        @media (max-width: 767px) {
+            input, textarea, select {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* Очень маленькая высота (превью в Google Sites) */
+        @media (max-height: 400px) {
+            #welcomeScreen {
+                padding: 0.25rem !important;
+            }
+            
+            #welcomeScreen .w-20 {
+                width: 2rem !important;
+                height: 2rem !important;
+            }
+            
+            #welcomeScreen h2 {
+                font-size: 0.875rem !important;
+            }
+            
+            #welcomeScreen p {
+                font-size: 0.625rem !important;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-white h-screen flex overflow-hidden">
+<body class="bg-gray-900 text-white h-screen flex overflow-hidden" style="height: 100vh; height: 100dvh;">
+    
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
     
     <!-- Error Toast Container -->
     <div id="errorContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
@@ -783,6 +1489,127 @@
                 <div class="text-center text-gray-400 text-sm slide-in-left" style="animation-delay: 0.7s">
                     Уже есть аккаунт? 
                     <button onclick="showLoginForm()" class="text-purple-400 hover:text-purple-300 transition-colors font-medium">
+                        Войти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel Modal -->
+    <div id="adminModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-2xl mx-4 modal-appear border border-gray-700 max-h-[90vh] overflow-y-auto scrollbar-thin">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold gradient-text flex items-center gap-2">
+                    <span>🛡️</span> Админ-панель
+                </h2>
+                <button onclick="closeAdminModal()" class="p-2 hover:bg-gray-700 rounded-lg transition-all avatar-hover">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Admin Actions -->
+            <div class="bg-gray-700/30 border border-gray-700 rounded-xl p-4 mb-6">
+                <h3 class="text-white font-medium mb-3">Управление пользователем</h3>
+                <div class="flex gap-3 mb-3">
+                    <input 
+                        type="text" 
+                        id="adminUserIdInput" 
+                        placeholder="Введите ID пользователя..."
+                        class="flex-1 bg-gray-700 border border-gray-600 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
+                    >
+                    <button onclick="adminFindUser()" class="px-4 py-2.5 bg-purple-500 hover:bg-purple-600 rounded-xl font-medium transition-all btn-hover">
+                        Найти
+                    </button>
+                </div>
+                
+                <!-- User Info -->
+                <div id="adminUserInfo" class="hidden bg-gray-800 rounded-xl p-4 mb-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div id="adminUserAvatar" class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-2xl">🧑</div>
+                        <div>
+                            <p id="adminUserName" class="text-white font-medium">Имя пользователя</p>
+                            <p id="adminUserEmail" class="text-gray-400 text-sm">email@example.com</p>
+                            <p id="adminUserId" class="text-gray-500 text-xs font-mono">ID: xxxxxxxx</p>
+                        </div>
+                        <div class="ml-auto text-right">
+                            <p id="adminUserPlan" class="text-sm">Free</p>
+                            <p id="adminUserCoins" class="text-yellow-400 font-medium">🪙 0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Actions -->
+                <div id="adminActions" class="hidden space-y-3">
+                    <div class="flex gap-3">
+                        <input 
+                            type="number" 
+                            id="adminCoinsAmount" 
+                            placeholder="Кол-во коинов"
+                            class="flex-1 bg-gray-700 border border-gray-600 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
+                        >
+                        <button onclick="adminAddCoins()" class="px-4 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-xl font-medium transition-all btn-hover">
+                            Выдать 🪙
+                        </button>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="adminTogglePro()" id="adminProBtn" class="flex-1 py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover">
+                            Выдать Pro
+                        </button>
+                        <button onclick="adminResetUser()" class="px-4 py-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl font-medium transition-all btn-hover">
+                            Сбросить
+                        </button>
+                    </div>
+                </div>
+                
+                <p id="adminError" class="text-red-400 text-sm mt-3 hidden"></p>
+                <p id="adminSuccess" class="text-green-400 text-sm mt-3 hidden"></p>
+            </div>
+            
+            <!-- Users List -->
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-white font-medium">Все пользователи</h3>
+                    <span id="adminUsersCount" class="text-gray-400 text-sm">0 пользователей</span>
+                </div>
+                <div id="adminUsersList" class="space-y-2 max-h-60 overflow-y-auto scrollbar-thin">
+                    <p class="text-gray-500 text-center py-4">Нет зарегистрированных пользователей</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <p class="text-gray-500 text-xs text-center">🔐 Пароль админа: admin123</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop">
+        <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-sm mx-4 modal-appear border border-gray-700">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-red-500 to-orange-500 rounded-2xl flex items-center justify-center mb-4">
+                    <span class="text-3xl">🛡️</span>
+                </div>
+                <h2 class="text-xl font-bold gradient-text">Вход в админ-панель</h2>
+                <p class="text-gray-400 text-sm mt-1">Введите пароль администратора</p>
+            </div>
+            
+            <div class="space-y-4">
+                <input 
+                    type="password" 
+                    id="adminPasswordInput" 
+                    placeholder="Пароль..."
+                    class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
+                    onkeydown="if(event.key==='Enter')adminLogin()"
+                >
+                <p id="adminLoginError" class="text-red-400 text-sm hidden">Неверный пароль</p>
+                <div class="flex gap-3">
+                    <button onclick="closeAdminLoginModal()" class="flex-1 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium transition-all btn-hover">
+                        Отмена
+                    </button>
+                    <button onclick="adminLogin()" class="flex-1 py-3 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 rounded-xl font-medium transition-all btn-hover">
                         Войти
                     </button>
                 </div>
@@ -1021,6 +1848,21 @@
             </div>
             
             <div class="space-y-4">
+                <!-- User ID Display -->
+                <div class="bg-gray-700/30 border border-gray-700 rounded-xl p-3 mb-4 slide-in-left">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-xs">Ваш ID</p>
+                            <p id="settingsUserId" class="text-white font-mono text-sm">—</p>
+                        </div>
+                        <button onclick="copyUserId()" class="p-2 hover:bg-gray-700 rounded-lg transition-all text-gray-400 hover:text-white" title="Скопировать ID">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
                 <!-- Coins Display -->
                 <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-xl p-4 shimmer scale-in">
                     <div class="flex items-center justify-between">
@@ -1184,6 +2026,14 @@
                 <span class="text-lg group-hover:rotate-12 transition-transform">🚀</span>
                 <span class="text-sm">Обновления</span>
                 <span class="ml-auto px-1.5 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold scale-in">1.0</span>
+            </button>
+        </div>
+        
+        <!-- Admin Button -->
+        <div class="px-4 py-2">
+            <button onclick="openAdminLoginModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-800 transition-all text-gray-400 hover:text-white group chat-item">
+                <span class="text-lg">🛡️</span>
+                <span class="text-sm">Админ-панель</span>
             </button>
         </div>
         
@@ -1352,6 +2202,7 @@
 
         // User profile
         let userProfile = {
+            id: null,
             name: '',
             email: '',
             avatar: '🧑',
@@ -1863,16 +2714,45 @@
             const userName = userProfile.name || 'Пользователь';
             const planType = userProfile.isPro ? 'Pro' : 'бесплатной';
             
+            // Получаем реальную дату и время
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            };
+            const currentDateTime = now.toLocaleDateString('ru-RU', options);
+            const currentTime = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+            const currentDate = now.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            
+            // Определяем время суток для приветствия
+            const hour = now.getHours();
+            let timeOfDay = 'день';
+            if (hour >= 5 && hour < 12) timeOfDay = 'утро';
+            else if (hour >= 12 && hour < 17) timeOfDay = 'день';
+            else if (hour >= 17 && hour < 22) timeOfDay = 'вечер';
+            else timeOfDay = 'ночь';
+            
             const proFeatures = userProfile.isPro ? 
                 `- У пользователя Pro версия, ты можешь писать код и помогать с программированием` :
                 `- У пользователя БЕСПЛАТНАЯ версия, ты НЕ МОЖЕШЬ писать код. Если просят код, скажи что это доступно только в Pro версии`;
             
             return `Ты — Stela AI, дружелюбный и умный AI-ассистент.
 
+ТЕКУЩАЯ ДАТА И ВРЕМЯ:
+📅 Дата: ${currentDate}
+🕐 Время: ${currentTime}
+🌤️ Время суток: ${timeOfDay}
+
 ВАЖНАЯ ИНФОРМАЦИЯ О ТЕБЕ:
 - Ты создан командой lmstudio ai
 - Ты говоришь на русском языке, если пользователь не просит иначе
 - Ты помогаешь с любыми вопросами: наука, творчество, советы и многое другое
+- Ты знаешь актуальную дату и время (см. выше)
 
 ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ:
 - Имя пользователя: ${userName}
@@ -1893,16 +2773,39 @@ ${proFeatures}
 СПЕЦИАЛЬНЫЕ СЛУЧАИ:
 - Если спрашивают "Кто тебя создал?" — ВСЕГДА отвечай: "Меня создала команда lmstudio ai! 🚀"
 - Если спрашивают про коины — объясни систему
-- Если пользователь здоровается — поприветствуй по имени`;
+- Если спрашивают дату/время — используй актуальные данные выше
+- Если пользователь здоровается — поприветствуй по имени и учитывай время суток (доброе утро/день/вечер/ночь)`;
         }
 
+        // ============ VIEWPORT FIX FOR MOBILE ============
+        function setViewportHeight() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setViewportHeight, 100);
+        });
+
+        // ============ CLEAR GUEST DATA ============
+        function clearGuestData() {
+            // Очищаем данные гостя (без ID)
+            localStorage.removeItem('stelaChatHistory');
+            localStorage.removeItem('stelaChatTimer');
+        }
+        
         // ============ INITIALIZE ============
         document.addEventListener('DOMContentLoaded', () => {
             checkBrowserSupport();
             loadUsers();
             loadProfile();
+            
+            // Загружаем данные привязанные к аккаунту
             loadChatHistory();
             loadChatTimer();
+            
             updateUI();
             updateCoinsDisplay();
             updateTTSUI();
@@ -1923,14 +2826,46 @@ ${proFeatures}
             document.getElementById('messageInput').focus();
             
             window.addEventListener('beforeunload', saveAllData);
-            setInterval(saveAllData, 30000);
+            
+            // Автосохранение каждые 15 секунд
+            setInterval(saveAllData, 15000);
+            
+            // Дополнительное сохранение при потере фокуса
+            window.addEventListener('blur', saveAllData);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    saveAllData();
+                }
+            });
         });
 
         // ============ SAVE DATA ============
         function saveAllData() {
-            saveProfileToStorage();
-            saveChatHistory();
-            saveChatTimer();
+            try {
+                saveProfileToStorage();
+                saveChatHistory();
+                saveChatTimer();
+                
+                // Синхронизируем данные с базой пользователей
+                if (userProfile.id || userProfile.email) {
+                    loadUsers();
+                    const userIndex = registeredUsers.findIndex(u => 
+                        (userProfile.id && u.id === userProfile.id) || 
+                        (userProfile.email && u.email === userProfile.email)
+                    );
+                    if (userIndex >= 0) {
+                        registeredUsers[userIndex].coins = userProfile.coins;
+                        registeredUsers[userIndex].isPro = userProfile.isPro;
+                        registeredUsers[userIndex].totalChatTime = userProfile.totalChatTime;
+                        registeredUsers[userIndex].ttsEnabled = userProfile.ttsEnabled;
+                        registeredUsers[userIndex].name = userProfile.name;
+                        registeredUsers[userIndex].avatar = userProfile.avatar;
+                        saveUsers();
+                    }
+                }
+            } catch (e) {
+                console.error('Error saving data:', e);
+            }
         }
 
         // ============ CHAT TIMER ============
@@ -1938,7 +2873,8 @@ ${proFeatures}
             if (chatStartTime) {
                 const currentSessionTime = Date.now() - chatStartTime;
                 const totalTime = accumulatedChatTime + currentSessionTime;
-                localStorage.setItem('stelaChatTimer', JSON.stringify({
+                const key = userProfile.id ? `stelaChatTimer_${userProfile.id}` : 'stelaChatTimer';
+                localStorage.setItem(key, JSON.stringify({
                     accumulatedTime: totalTime,
                     lastCoinAwardTime: lastCoinAwardTime,
                     savedAt: Date.now()
@@ -1948,7 +2884,8 @@ ${proFeatures}
 
         function loadChatTimer() {
             try {
-                const saved = localStorage.getItem('stelaChatTimer');
+                const key = userProfile.id ? `stelaChatTimer_${userProfile.id}` : 'stelaChatTimer';
+                const saved = localStorage.getItem(key);
                 if (saved) {
                     const data = JSON.parse(saved);
                     accumulatedChatTime = data.accumulatedTime || 0;
@@ -2035,6 +2972,7 @@ ${proFeatures}
             document.getElementById('settingsName').value = userProfile.name;
             document.getElementById('settingsEmail').value = userProfile.email || '';
             document.getElementById('settingsCoins').textContent = userProfile.coins || 0;
+            document.getElementById('settingsUserId').textContent = userProfile.id || '—';
             selectedSettingsAvatar = userProfile.avatar;
             ttsEnabled = userProfile.ttsEnabled || false;
             updateTTSUI();
@@ -2072,11 +3010,18 @@ ${proFeatures}
         // ============ CHAT HISTORY ============
         function loadChatHistory() {
             try {
-                const saved = localStorage.getItem('stelaChatHistory');
+                const key = userProfile.id ? `stelaChatHistory_${userProfile.id}` : 'stelaChatHistory';
+                const saved = localStorage.getItem(key);
+                const historyContainer = document.getElementById('chatHistory');
+                historyContainer.innerHTML = '';
+                
                 if (saved) {
                     chatHistoryList = JSON.parse(saved);
-                    const historyContainer = document.getElementById('chatHistory');
-                    historyContainer.innerHTML = '';
+                    
+                    if (chatHistoryList.length === 0) {
+                        return;
+                    }
+                    
                     chatHistoryList.forEach((chat, index) => {
                         const chatItem = document.createElement('div');
                         chatItem.className = 'flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-800 cursor-pointer transition-all chat-item';
@@ -2090,16 +3035,20 @@ ${proFeatures}
                         `;
                         historyContainer.appendChild(chatItem);
                     });
+                } else {
+                    chatHistoryList = [];
                 }
             } catch (e) {
                 console.error('Failed to load chat history:', e);
+                chatHistoryList = [];
                 showError('error Stela AI: Не удалось загрузить историю чатов', 'warning');
             }
         }
 
         function saveChatHistory() {
             try {
-                localStorage.setItem('stelaChatHistory', JSON.stringify(chatHistoryList));
+                const key = userProfile.id ? `stelaChatHistory_${userProfile.id}` : 'stelaChatHistory';
+                localStorage.setItem(key, JSON.stringify(chatHistoryList));
             } catch (e) {
                 console.error('Failed to save chat history:', e);
                 showError('error Stela AI: Не удалось сохранить историю', 'error');
@@ -2109,6 +3058,7 @@ ${proFeatures}
         function loadChat(chatId) {
             const chat = chatHistoryList.find(c => c.id === chatId);
             if (chat) {
+                closeSidebar(); // Close sidebar on mobile after selecting chat
                 currentChatId = chat.id;
                 conversationHistory = chat.messages || [];
                 messages = [];
@@ -2187,6 +3137,7 @@ ${proFeatures}
         }
 
         function newChat() {
+            closeSidebar(); // Close sidebar on mobile
             currentChatId = null;
             messages = [];
             conversationHistory = [];
@@ -2202,10 +3153,34 @@ ${proFeatures}
                 const saved = localStorage.getItem('stelaUserProfile');
                 if (saved) {
                     userProfile = JSON.parse(saved);
+                    
+                    // Синхронизируем с базой пользователей для актуальных данных
+                    if (userProfile.id || userProfile.email) {
+                        loadUsers();
+                        const user = registeredUsers.find(u => 
+                            (userProfile.id && u.id === userProfile.id) || 
+                            (userProfile.email && u.email === userProfile.email)
+                        );
+                        
+                        if (user) {
+                            // Берём актуальные данные из базы
+                            userProfile.coins = user.coins || 0;
+                            userProfile.isPro = user.isPro || false;
+                            userProfile.totalChatTime = user.totalChatTime || 0;
+                            userProfile.ttsEnabled = user.ttsEnabled || false;
+                            userProfile.name = user.name || userProfile.name;
+                            userProfile.avatar = user.avatar || userProfile.avatar;
+                            userProfile.id = user.id;
+                        }
+                    }
+                    
                     if (userProfile.coins === undefined) userProfile.coins = 0;
                     if (userProfile.totalChatTime === undefined) userProfile.totalChatTime = 0;
                     if (userProfile.ttsEnabled === undefined) userProfile.ttsEnabled = false;
                     ttsEnabled = userProfile.ttsEnabled;
+                    
+                    // Сохраняем обновлённый профиль
+                    localStorage.setItem('stelaUserProfile', JSON.stringify(userProfile));
                 }
             } catch (e) {
                 console.error('Failed to load profile:', e);
@@ -2216,6 +3191,25 @@ ${proFeatures}
         function saveProfileToStorage() {
             try {
                 localStorage.setItem('stelaUserProfile', JSON.stringify(userProfile));
+                
+                // Синхронизируем с базой пользователей
+                if (userProfile.id || userProfile.email) {
+                    loadUsers();
+                    const userIndex = registeredUsers.findIndex(u => 
+                        (userProfile.id && u.id === userProfile.id) || 
+                        (userProfile.email && u.email === userProfile.email)
+                    );
+                    if (userIndex >= 0) {
+                        // Обновляем данные в базе
+                        registeredUsers[userIndex].coins = userProfile.coins;
+                        registeredUsers[userIndex].isPro = userProfile.isPro;
+                        registeredUsers[userIndex].totalChatTime = userProfile.totalChatTime;
+                        registeredUsers[userIndex].ttsEnabled = userProfile.ttsEnabled;
+                        registeredUsers[userIndex].name = userProfile.name;
+                        registeredUsers[userIndex].avatar = userProfile.avatar;
+                        saveUsers();
+                    }
+                }
             } catch (e) {
                 console.error('Failed to save profile:', e);
                 showError('error Stela AI: Не удалось сохранить профиль', 'error');
@@ -2233,12 +3227,265 @@ ${proFeatures}
         // ============ AUTH SYSTEM ============
         let registeredUsers = [];
         let selectedRegisterAvatar = '🧑';
+        const ADMIN_PASSWORD = 'admin123';
+        let selectedAdminUser = null;
+        
+        // Generate unique ID
+        function generateUserId() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let id = 'USR-';
+            for (let i = 0; i < 8; i++) {
+                id += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return id;
+        }
+        
+        // ============ ADMIN PANEL ============
+        function openAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+            document.getElementById('adminLoginModal').classList.add('flex');
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminLoginError').classList.add('hidden');
+            document.getElementById('adminPasswordInput').focus();
+        }
+        
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+            document.getElementById('adminLoginModal').classList.remove('flex');
+        }
+        
+        function adminLogin() {
+            const password = document.getElementById('adminPasswordInput').value;
+            if (password === ADMIN_PASSWORD) {
+                closeAdminLoginModal();
+                openAdminModal();
+            } else {
+                document.getElementById('adminLoginError').classList.remove('hidden');
+                document.getElementById('adminPasswordInput').classList.add('error-shake');
+                setTimeout(() => document.getElementById('adminPasswordInput').classList.remove('error-shake'), 600);
+            }
+        }
+        
+        function openAdminModal() {
+            loadUsers();
+            updateAdminUsersList();
+            document.getElementById('adminModal').classList.remove('hidden');
+            document.getElementById('adminModal').classList.add('flex');
+            document.getElementById('adminUserIdInput').value = '';
+            document.getElementById('adminUserInfo').classList.add('hidden');
+            document.getElementById('adminActions').classList.add('hidden');
+            document.getElementById('adminError').classList.add('hidden');
+            document.getElementById('adminSuccess').classList.add('hidden');
+            selectedAdminUser = null;
+        }
+        
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+            document.getElementById('adminModal').classList.remove('flex');
+        }
+        
+        function updateAdminUsersList() {
+            const container = document.getElementById('adminUsersList');
+            const count = document.getElementById('adminUsersCount');
+            
+            count.textContent = `${registeredUsers.length} пользователей`;
+            
+            if (registeredUsers.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-4">Нет зарегистрированных пользователей</p>';
+                return;
+            }
+            
+            container.innerHTML = registeredUsers.map(user => `
+                <div class="flex items-center gap-3 p-3 bg-gray-700/50 rounded-xl hover:bg-gray-700 cursor-pointer transition-all" onclick="adminSelectUser('${user.id}')">
+                    <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-xl">${user.avatar || '🧑'}</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-white font-medium truncate">${user.name}</p>
+                        <p class="text-gray-400 text-xs font-mono">${user.id}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs ${user.isPro ? 'text-purple-400' : 'text-gray-500'}">${user.isPro ? 'Pro' : 'Free'}</p>
+                        <p class="text-yellow-400 text-sm">🪙 ${user.coins || 0}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function adminSelectUser(userId) {
+            document.getElementById('adminUserIdInput').value = userId;
+            adminFindUser();
+        }
+        
+        function adminFindUser() {
+            const userId = document.getElementById('adminUserIdInput').value.trim().toUpperCase();
+            document.getElementById('adminError').classList.add('hidden');
+            document.getElementById('adminSuccess').classList.add('hidden');
+            
+            if (!userId) {
+                document.getElementById('adminError').textContent = 'Введите ID пользователя';
+                document.getElementById('adminError').classList.remove('hidden');
+                return;
+            }
+            
+            loadUsers();
+            const user = registeredUsers.find(u => u.id === userId);
+            
+            if (!user) {
+                document.getElementById('adminError').textContent = 'Пользователь не найден';
+                document.getElementById('adminError').classList.remove('hidden');
+                document.getElementById('adminUserInfo').classList.add('hidden');
+                document.getElementById('adminActions').classList.add('hidden');
+                selectedAdminUser = null;
+                return;
+            }
+            
+            selectedAdminUser = user;
+            
+            // Display user info
+            document.getElementById('adminUserAvatar').textContent = user.avatar || '🧑';
+            document.getElementById('adminUserName').textContent = user.name;
+            document.getElementById('adminUserEmail').textContent = user.email;
+            document.getElementById('adminUserId').textContent = `ID: ${user.id}`;
+            document.getElementById('adminUserPlan').textContent = user.isPro ? 'Pro' : 'Free';
+            document.getElementById('adminUserPlan').className = `text-sm ${user.isPro ? 'text-purple-400' : 'text-gray-400'}`;
+            document.getElementById('adminUserCoins').textContent = `🪙 ${user.coins || 0}`;
+            
+            // Update Pro button
+            const proBtn = document.getElementById('adminProBtn');
+            if (user.isPro) {
+                proBtn.textContent = 'Забрать Pro';
+                proBtn.className = 'flex-1 py-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl font-medium transition-all btn-hover';
+            } else {
+                proBtn.textContent = 'Выдать Pro';
+                proBtn.className = 'flex-1 py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 rounded-xl font-medium transition-all btn-hover';
+            }
+            
+            document.getElementById('adminUserInfo').classList.remove('hidden');
+            document.getElementById('adminActions').classList.remove('hidden');
+        }
+        
+        function adminAddCoins() {
+            if (!selectedAdminUser) return;
+            
+            const amount = parseInt(document.getElementById('adminCoinsAmount').value);
+            if (isNaN(amount) || amount === 0) {
+                document.getElementById('adminError').textContent = 'Введите корректное количество коинов';
+                document.getElementById('adminError').classList.remove('hidden');
+                return;
+            }
+            
+            loadUsers();
+            const userIndex = registeredUsers.findIndex(u => u.id === selectedAdminUser.id);
+            if (userIndex >= 0) {
+                registeredUsers[userIndex].coins = (registeredUsers[userIndex].coins || 0) + amount;
+                saveUsers();
+                
+                // Update current user if it's the same
+                if (userProfile.id === selectedAdminUser.id) {
+                    userProfile.coins = registeredUsers[userIndex].coins;
+                    saveProfileToStorage();
+                    updateCoinsDisplay();
+                }
+                
+                document.getElementById('adminSuccess').textContent = `${amount > 0 ? '+' : ''}${amount} коинов ${amount > 0 ? 'добавлено' : 'списано'}!`;
+                document.getElementById('adminSuccess').classList.remove('hidden');
+                document.getElementById('adminError').classList.add('hidden');
+                document.getElementById('adminCoinsAmount').value = '';
+                
+                // Refresh user info
+                selectedAdminUser = registeredUsers[userIndex];
+                document.getElementById('adminUserCoins').textContent = `🪙 ${selectedAdminUser.coins || 0}`;
+                updateAdminUsersList();
+            }
+        }
+        
+        function adminTogglePro() {
+            if (!selectedAdminUser) return;
+            
+            loadUsers();
+            const userIndex = registeredUsers.findIndex(u => u.id === selectedAdminUser.id);
+            if (userIndex >= 0) {
+                registeredUsers[userIndex].isPro = !registeredUsers[userIndex].isPro;
+                saveUsers();
+                
+                // Update current user if it's the same
+                if (userProfile.id === selectedAdminUser.id) {
+                    userProfile.isPro = registeredUsers[userIndex].isPro;
+                    saveProfileToStorage();
+                    updateUI();
+                }
+                
+                const isPro = registeredUsers[userIndex].isPro;
+                document.getElementById('adminSuccess').textContent = isPro ? 'Pro версия выдана!' : 'Pro версия отобрана';
+                document.getElementById('adminSuccess').classList.remove('hidden');
+                document.getElementById('adminError').classList.add('hidden');
+                
+                // Refresh user info
+                selectedAdminUser = registeredUsers[userIndex];
+                adminFindUser();
+                updateAdminUsersList();
+            }
+        }
+        
+        function adminResetUser() {
+            if (!selectedAdminUser) return;
+            
+            if (!confirm(`Сбросить пользователя ${selectedAdminUser.name}? Это обнулит коины и уберёт Pro.`)) return;
+            
+            loadUsers();
+            const userIndex = registeredUsers.findIndex(u => u.id === selectedAdminUser.id);
+            if (userIndex >= 0) {
+                registeredUsers[userIndex].coins = 0;
+                registeredUsers[userIndex].isPro = false;
+                saveUsers();
+                
+                // Update current user if it's the same
+                if (userProfile.id === selectedAdminUser.id) {
+                    userProfile.coins = 0;
+                    userProfile.isPro = false;
+                    saveProfileToStorage();
+                    updateUI();
+                    updateCoinsDisplay();
+                }
+                
+                document.getElementById('adminSuccess').textContent = 'Пользователь сброшен!';
+                document.getElementById('adminSuccess').classList.remove('hidden');
+                document.getElementById('adminError').classList.add('hidden');
+                
+                // Refresh
+                selectedAdminUser = registeredUsers[userIndex];
+                adminFindUser();
+                updateAdminUsersList();
+            }
+        }
+        
+        function copyUserId() {
+            const userId = userProfile.id;
+            if (userId) {
+                navigator.clipboard.writeText(userId).then(() => {
+                    showError('ID скопирован!', 'success');
+                }).catch(() => {
+                    showError('error Stela AI: Не удалось скопировать', 'error');
+                });
+            }
+        }
 
         function loadUsers() {
             try {
                 const saved = localStorage.getItem('stelaUsers');
                 if (saved) {
                     registeredUsers = JSON.parse(saved);
+                    
+                    // Migrate old users without ID
+                    let needsSave = false;
+                    registeredUsers.forEach(user => {
+                        if (!user.id) {
+                            user.id = generateUserId();
+                            needsSave = true;
+                        }
+                    });
+                    if (needsSave) {
+                        saveUsers();
+                    }
                 }
             } catch (e) {
                 console.error('Failed to load users:', e);
@@ -2392,11 +3639,12 @@ ${proFeatures}
                 return;
             }
             
-            // Login successful
+            // Login successful - загружаем ВСЕ данные из базы
             userProfile = {
+                id: user.id,
                 name: user.name,
                 email: user.email,
-                avatar: user.avatar,
+                avatar: user.avatar || '🧑',
                 isPro: user.isPro || false,
                 coins: user.coins || 0,
                 totalChatTime: user.totalChatTime || 0,
@@ -2404,9 +3652,21 @@ ${proFeatures}
                 createdAt: user.createdAt
             };
             
+            // Устанавливаем TTS
+            ttsEnabled = userProfile.ttsEnabled;
+            
             saveProfileToStorage();
+            
+            // Загружаем данные аккаунта
+            loadChatHistory();
+            loadChatTimer();
+            
+            // Сбрасываем текущий чат
+            newChat();
+            
             updateUI();
             updateCoinsDisplay();
+            updateTTSUI();
             closeAuthModal();
             showError('Добро пожаловать, ' + user.name + '!', 'success');
         }
@@ -2461,8 +3721,9 @@ ${proFeatures}
                 return;
             }
             
-            // Create new user
+            // Create new user with unique ID
             const newUser = {
+                id: generateUserId(),
                 name: name,
                 email: email,
                 password: password,
@@ -2479,6 +3740,7 @@ ${proFeatures}
             
             // Auto login
             userProfile = {
+                id: newUser.id,
                 name: newUser.name,
                 email: newUser.email,
                 avatar: newUser.avatar,
@@ -2490,6 +3752,20 @@ ${proFeatures}
             };
             
             saveProfileToStorage();
+            
+            // Инициализируем пустую историю чатов для нового аккаунта
+            chatHistoryList = [];
+            saveChatHistory();
+            document.getElementById('chatHistory').innerHTML = '';
+            
+            // Сбрасываем таймер для нового аккаунта
+            accumulatedChatTime = 0;
+            lastCoinAwardTime = null;
+            chatStartTime = null;
+            document.getElementById('chatTimer').textContent = '00:00';
+            document.getElementById('coinProgress').style.width = '0%';
+            document.getElementById('timeToCoins').textContent = '60:00';
+            
             updateUI();
             updateCoinsDisplay();
             closeAuthModal();
@@ -2657,25 +3933,31 @@ ${proFeatures}
 
         function logout() {
             if (confirm('Вы уверены, что хотите выйти?')) {
-                // Save current user data before logout
-                if (userProfile.email) {
-                    loadUsers();
-                    const userIndex = registeredUsers.findIndex(u => u.email === userProfile.email);
-                    if (userIndex >= 0) {
-                        registeredUsers[userIndex].coins = userProfile.coins;
-                        registeredUsers[userIndex].isPro = userProfile.isPro;
-                        registeredUsers[userIndex].totalChatTime = userProfile.totalChatTime;
-                        registeredUsers[userIndex].ttsEnabled = userProfile.ttsEnabled;
-                        saveUsers();
-                    }
-                }
+                // Сохраняем все данные текущего пользователя перед выходом
+                saveAllData();
                 
-                userProfile = { name: '', email: '', avatar: '🧑', isPro: false, coins: 0, totalChatTime: 0, ttsEnabled: false, createdAt: null };
+                // Сохраняем ID для очистки правильных ключей
+                const oldUserId = userProfile.id;
+                
+                // Сбрасываем профиль
+                userProfile = { id: null, name: '', email: '', avatar: '🧑', isPro: false, coins: 0, totalChatTime: 0, ttsEnabled: false, createdAt: null };
                 localStorage.removeItem('stelaUserProfile');
+                
+                // Останавливаем таймер
                 stopChatTimer();
                 accumulatedChatTime = 0;
                 lastCoinAwardTime = null;
-                localStorage.removeItem('stelaChatTimer');
+                chatStartTime = null;
+                
+                // Очищаем историю чатов (но не удаляем из localStorage - она привязана к аккаунту)
+                chatHistoryList = [];
+                document.getElementById('chatHistory').innerHTML = '';
+                
+                // Сбрасываем таймер на экране
+                document.getElementById('chatTimer').textContent = '00:00';
+                document.getElementById('coinProgress').style.width = '0%';
+                document.getElementById('timeToCoins').textContent = '60:00';
+                
                 updateUI();
                 updateCoinsDisplay();
                 closeSettingsModal();
@@ -2748,7 +4030,23 @@ ${proFeatures}
 
         function addCoins(amount) {
             userProfile.coins = (userProfile.coins || 0) + amount;
+            
+            // Сразу сохраняем в localStorage и синхронизируем с базой
             saveProfileToStorage();
+            
+            // Дополнительное сохранение в базу для надёжности
+            if (userProfile.id || userProfile.email) {
+                loadUsers();
+                const userIndex = registeredUsers.findIndex(u => 
+                    (userProfile.id && u.id === userProfile.id) || 
+                    (userProfile.email && u.email === userProfile.email)
+                );
+                if (userIndex >= 0) {
+                    registeredUsers[userIndex].coins = userProfile.coins;
+                    saveUsers();
+                }
+            }
+            
             updateCoinsDisplay();
             
             document.getElementById('headerCoins').classList.add('coin-bounce');
@@ -3160,7 +4458,23 @@ ${proFeatures}
         // ============ UI HELPERS ============
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('-translate-x-full');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.classList.contains('sidebar-open')) {
+                closeSidebar();
+            } else {
+                sidebar.classList.add('sidebar-open');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('sidebar-open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function autoResize(textarea) {
