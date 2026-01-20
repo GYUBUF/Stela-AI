@@ -87,15 +87,86 @@
             50% { background-position: 100% 50%; }
         }
 
-        /* Glow Effect */
+        /* Glow Effect - улучшенный */
         .glow {
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2);
             animation: glowPulse 2s ease-in-out infinite;
         }
 
         @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.5); }
+            0%, 100% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2); }
+            50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.6), 0 0 80px rgba(59, 130, 246, 0.3); }
+        }
+        
+        /* Glass Effect для карточек */
+        .glass-card {
+            background: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Улучшенные тени для сообщений */
+        .message-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(139, 92, 246, 0.1);
+        }
+        
+        /* Неоновый эффект для кнопок */
+        .neon-btn {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .neon-btn:hover {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6), inset 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+        
+        /* Улучшенный фон для области чата */
+        #chatArea {
+            background: linear-gradient(180deg, #111827 0%, #0f172a 50%, #111827 100%);
+        }
+        
+        /* Красивый градиент для сайдбара */
+        #sidebar {
+            background: linear-gradient(180deg, #030712 0%, #111827 100%);
+        }
+        
+        /* Анимация появления для важных элементов */
+        .fade-up {
+            animation: fadeUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Улучшенный hover для истории чатов */
+        .chat-item-enhanced {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chat-item-enhanced::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(180deg, #a855f7, #3b82f6);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .chat-item-enhanced:hover::before {
+            transform: scaleY(1);
         }
 
         /* Typing Animation */
@@ -657,9 +728,26 @@
                 padding: 2rem;
             }
             
-            /* Широкие сообщения */
+            /* Широкие сообщения - сдвиг правее */
             .message-appear .max-w-2xl {
-                max-width: 42rem;
+                max-width: 48rem;
+            }
+            
+            /* Контейнер сообщений - сдвиг правее */
+            #messagesContainer {
+                padding-left: 3rem;
+                padding-right: 2rem;
+            }
+            
+            /* Приветственный экран - сдвиг правее */
+            #welcomeScreen {
+                padding-left: 4rem;
+            }
+            
+            /* Область ввода - сдвиг правее */
+            .p-4.border-t .max-w-4xl {
+                margin-left: 2rem;
+                max-width: 52rem;
             }
             
             /* Hover эффекты только на ПК */
@@ -1780,10 +1868,48 @@
             </div>
             
             <div class="space-y-4">
-                <!-- Version 1.0 -->
+                <!-- Version 1.1.0 -->
                 <div class="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-4 slide-in-left shimmer">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="px-2 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold scale-in">NEW</span>
+                        <span class="text-white font-bold">Версия 1.1.0</span>
+                        <span class="text-gray-500 text-xs">— Улучшение интерфейса</span>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-1.5">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>🎨 Glass-эффекты и неоновое свечение</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>💎 Улучшенные тени и градиенты</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>➡️ Оптимизированное расположение чата</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>🛡️ Админ-панель с управлением пользователями</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>🆔 Уникальные ID для каждого пользователя</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>📅 Реальная дата и время для Stela AI</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            <span>💾 Сохранение данных по аккаунту</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Version 1.0 -->
+                <div class="bg-gray-700/30 border border-gray-700 rounded-xl p-4 slide-in-left">
+                    <div class="flex items-center gap-2 mb-2">
                         <span class="text-white font-bold">Версия 1.0</span>
                         <span class="text-gray-500 text-xs">— Релиз</span>
                     </div>
@@ -1830,7 +1956,7 @@
             
             <div class="mt-6 pt-4 border-t border-gray-700 text-center">
                 <p class="text-gray-400 text-sm">Stela AI от lmstudio ai</p>
-                <p class="text-gray-500 text-xs mt-1">Текущая версия: 1.0</p>
+                <p class="text-gray-500 text-xs mt-1">Текущая версия: 1.1.0</p>
             </div>
         </div>
     </div>
@@ -2025,7 +2151,7 @@
             <button onclick="openUpdatesModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-800 transition-all text-gray-400 hover:text-white group chat-item">
                 <span class="text-lg group-hover:rotate-12 transition-transform">🚀</span>
                 <span class="text-sm">Обновления</span>
-                <span class="ml-auto px-1.5 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold scale-in">1.0</span>
+                <span class="ml-auto px-1.5 py-0.5 bg-purple-500 text-white text-xs rounded-full font-bold scale-in">1.1.0</span>
             </button>
         </div>
         
@@ -2058,20 +2184,23 @@
     <!-- Main Content -->
     <main class="flex-1 flex flex-col bg-gray-900">
         <!-- Header -->
-        <header class="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+        <header class="flex items-center justify-between px-6 py-4 border-b border-gray-800/50 bg-gray-900/80 backdrop-blur-lg">
             <div class="flex items-center gap-3">
                 <button onclick="toggleSidebar()" class="p-2 hover:bg-gray-800 rounded-lg transition-all lg:hidden">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 flex items-center justify-center glow logo-spin">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl blur-md opacity-50"></div>
+                        <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 flex items-center justify-center glow logo-spin neon-btn">
+                            <svg class="w-5 h-5 text-white drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
                     </div>
-                    <h1 class="text-xl font-bold gradient-text">Stela AI</h1>
+                    <h1 class="text-2xl font-bold gradient-text tracking-tight">Stela AI</h1>
                 </div>
             </div>
             <div class="flex items-center gap-2">
@@ -2098,14 +2227,21 @@
         <!-- Chat Area -->
         <div id="chatArea" class="flex-1 overflow-y-auto scrollbar-thin">
             <!-- Welcome Screen -->
-            <div id="welcomeScreen" class="h-full flex flex-col items-center justify-center px-4">
-                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 flex items-center justify-center mb-6 welcome-icon">
-                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
+            <div id="welcomeScreen" class="h-full flex flex-col items-center justify-center px-4 fade-up">
+                <div class="relative mb-8">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-3xl blur-2xl opacity-30 animate-pulse"></div>
+                    <div class="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 flex items-center justify-center welcome-icon neon-btn">
+                        <svg class="w-12 h-12 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
                 </div>
-                <h2 class="text-3xl font-bold mb-3 gradient-text scale-in">Привет! Я Stela AI</h2>
-                <p class="text-gray-400 text-center max-w-md slide-in-left">Ваш интеллектуальный помощник. Задайте любой вопрос, и я постараюсь помочь!</p>
+                <h2 class="text-4xl font-bold mb-4 gradient-text scale-in tracking-tight">Привет! Я Stela AI</h2>
+                <p class="text-gray-400 text-center max-w-lg text-lg slide-in-left leading-relaxed">Ваш интеллектуальный помощник. Задайте любой вопрос, и я постараюсь помочь!</p>
+                <div class="mt-8 flex items-center gap-2 text-sm text-gray-500">
+                    <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                    <span>Готов к общению</span>
+                </div>
             </div>
             
             <!-- Messages Container -->
@@ -2116,7 +2252,7 @@
         <!-- Input Area -->
         <div class="p-4 border-t border-gray-800">
             <div class="max-w-4xl mx-auto">
-                <div class="relative flex items-end bg-gray-800 rounded-2xl border border-gray-700 focus-within:border-purple-500 transition-all input-focus">
+                <div class="relative flex items-end bg-gray-800/80 glass-card rounded-2xl border border-gray-700/50 focus-within:border-purple-500 focus-within:shadow-lg focus-within:shadow-purple-500/20 transition-all input-focus">
                     <textarea 
                         id="messageInput" 
                         placeholder="Напишите сообщение..."
@@ -4286,8 +4422,8 @@ ${proFeatures}
             if (sender === 'user') {
                 messageDiv.innerHTML = `
                     <div class="max-w-2xl">
-                        <div class="bg-gradient-to-r from-purple-600 to-purple-500 rounded-2xl rounded-tr-sm px-4 py-3 shadow-lg">
-                            <p class="text-white whitespace-pre-wrap">${escapeHtml(text)}</p>
+                        <div class="bg-gradient-to-r from-purple-600 via-violet-500 to-purple-500 rounded-2xl rounded-tr-sm px-5 py-3.5 shadow-xl message-shadow">
+                            <p class="text-white whitespace-pre-wrap leading-relaxed">${escapeHtml(text)}</p>
                         </div>
                     </div>
                 `;
@@ -4303,13 +4439,13 @@ ${proFeatures}
             const messageDiv = document.createElement('div');
             messageDiv.className = 'flex gap-4 message-appear';
             messageDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center flex-shrink-0 glow">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 flex items-center justify-center flex-shrink-0 glow neon-btn">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
                 <div class="max-w-2xl flex-1">
-                    <div class="bg-gray-800 rounded-2xl rounded-tl-sm px-4 py-3">
+                    <div class="bg-gray-800/90 glass-card rounded-2xl rounded-tl-sm px-5 py-4 message-shadow">
                         <div class="typing-loader flex gap-1 py-1">
                             <div class="w-2 h-2 bg-purple-400 rounded-full typing-dot"></div>
                             <div class="w-2 h-2 bg-purple-400 rounded-full typing-dot"></div>
